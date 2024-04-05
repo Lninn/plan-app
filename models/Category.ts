@@ -29,6 +29,6 @@ const CategorySchema = new mongoose.Schema<Categories>({
       children: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Category' }]
     }
   ],
-}, { _id: false });
+});
 
 export default mongoose.models.Category || mongoose.model<Categories>("Category", CategorySchema);

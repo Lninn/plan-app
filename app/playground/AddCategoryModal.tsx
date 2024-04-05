@@ -1,9 +1,17 @@
 'use client';
 
 import { useStore } from "@/lib/playgroundStore";
-import { Modal, Form, Input } from "antd";
+import { Modal, Form, Input, Button, message } from "antd";
 import { useShallow } from "zustand/react/shallow";
+import useSWRMutation from "swr/mutation";
 
+
+async function sendRequest(url: string, { arg }: { arg: { firstCategory: string, secondCategory: string }}) {
+  return fetch(url, {
+    method: 'POST',
+    body: JSON.stringify(arg)
+  }).then(res => res.json())
+}
 
 function useAppModal() {
   return useStore(
@@ -19,10 +27,24 @@ export default function AddCategoryModal(){
 
   const [form] = Form.useForm();
 
+  const { trigger, isMutating } = useSWRMutation('/api/category', sendRequest, /* options */)
+
   async function handleSubmit() {
     try {
-      const values = await form.validateFields();
-      console.log(values);
+      const {
+        firstCategory,
+        secondCategory,
+      } = await form.validateFields();
+
+      const createRes = await trigger({ firstCategory, secondCategory })
+      if (createRes.ok) {
+        message.success('添加成功', 1, () => {
+          form.resetFields();
+          closeAddCategoryModal();
+        })
+      } else {
+        message.error('添加失败')
+      }
     } catch (error) {
       //
     }
@@ -34,7 +56,11 @@ export default function AddCategoryModal(){
       open={addCategoryOpen}
       onCancel={closeAddCategoryModal}
       onOk={handleSubmit}
+      okButtonProps={isMutating ? { loading: true } : undefined}
     >
+      <div style={{ padding: 16, textAlign: 'right' }}>
+        <Button>自动填充随机数据</Button>
+      </div>
       <Form form={form} layout='vertical'>
         <Form.Item
           label="一级分类名称"
