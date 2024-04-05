@@ -1,30 +1,35 @@
+'use client'
+
 import style from './AppHeader.module.css'
 
 import { Button, Cascader, Form, Input, Select, Space } from "antd";
 import { SettingOutlined } from "@ant-design/icons";
 import { categories } from "../category";
-import { Command } from ".";
-import { type DefaultOptionType } from 'antd/es/select'
+import { Command } from "@/app/components";
+import { useStore } from '@/lib/store';
+import { useShallow } from 'zustand/react/shallow';
 
 
-interface AppHeaderProps {
-  openAddDialog: () => void
-  openSettingPanel: () => void
-  tagOptions: DefaultOptionType[]
+function useModalAction() {
+  return useStore(
+    useShallow((store) => ({
+      showCreateModal: () => store.changeCreateDialogOpen(true),
+      showSettingPanel: () => store.changeSettingPanelOpen(true)
+    })),
+  );
 }
 
-export default function AppHeader(
-  {
-    openAddDialog,
-    openSettingPanel,
-    tagOptions
-  }: AppHeaderProps
-) {
-  const [filterForm] = Form.useForm()
+export default function AppHeader() {
+  const {
+    showCreateModal,
+    showSettingPanel
+  } = useModalAction()
+
+  const [form] = Form.useForm()
 
   return (
     <div className={style.appHeader}>
-      <Form form={filterForm} layout='inline'>
+      <Form form={form} layout='inline'>
         <Form.Item label='关键词'>
           <Input placeholder='请输入关键词' />
         </Form.Item>
@@ -32,7 +37,8 @@ export default function AppHeader(
           <Cascader placeholder='请选择' options={categories} />
         </Form.Item>
         <Form.Item label='标签'>
-          <Select placeholder='请选择' options={tagOptions} style={{ width: 160 }} />
+            {/* TODO */}
+          <Select placeholder='请选择' options={[]} style={{ width: 160 }} />
         </Form.Item>
         <Form.Item style={{ marginInlineStart: 'auto' }}>
           <Space>
@@ -44,13 +50,13 @@ export default function AppHeader(
                   <span>K</span>
                 </div>
               )}
-              onClick={openAddDialog}
+              onClick={showCreateModal}
             >
               创建
             </Button>
             <Button
               type='text'
-              onClick={openSettingPanel}
+              onClick={showSettingPanel}
               icon={<SettingOutlined style={{ fontSize: 16 }} />}
             >
               设置

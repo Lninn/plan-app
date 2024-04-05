@@ -82,17 +82,13 @@ function switchDataSource(nextEnv: Env) {
 }
 
 interface State {
-  createDialogOpen: boolean
   dataSource: ILinkInfo[]
-
-  settingPanelOpen: boolean
   categories: CascaderProps['options']
   tagOptions: DefaultOptionType[]
 }
 
 const initialState: State = {
-  createDialogOpen: false,
-  settingPanelOpen: false,
+  
 
   ...getInitialState(),
 }
@@ -123,35 +119,10 @@ function reducer(p: State, n: Partial<State>) {
 export default function useApp() {
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  useEffect(() => {
-    function handleKeyDown(e: KeyboardEvent) {
-      if (e.metaKey && e.key === 'k') {
-        openAddDialog()
-      }
-    }
-    window.addEventListener('keydown', handleKeyDown)
-  }, [])
-
   function appendList(records: ILinkInfo[]) {
     dispatch({
       dataSource: [...records, ...state.dataSource],
     })
-  }
-
-  function openAddDialog() {
-    dispatch({ createDialogOpen: true })
-  }
-
-  function closeCreateDialog() {
-    dispatch({ createDialogOpen: false })
-  }
-
-  function openSettingPanel() {
-    dispatch({ settingPanelOpen: true })
-  }
-
-  function closeSettingPanel() {
-    dispatch({ settingPanelOpen: false })
   }
 
   function toggleEnv(n: Env) {
@@ -162,10 +133,6 @@ export default function useApp() {
   return {
     ...state,
     appendList,
-    closeCreateDialog,
-    openSettingPanel,
-    closeSettingPanel,
-    openAddDialog,
     toggleEnv,
   }
 }

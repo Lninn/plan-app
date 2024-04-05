@@ -1,4 +1,4 @@
-import { Drawer, Form, Switch, Radio, Button } from "antd"
+import { Drawer, Form, Switch, Radio } from "antd"
 import { coreInfo } from "./coreInfo"
 import { Env } from "../type"
 
@@ -39,9 +39,6 @@ export default function SettingPanel(
         </Form.Item>
         <Form.Item label='环境' name='env'>
           <Radio.Group options={envOptions} onChange={e => toggleEnv(e.target.value)} />
-        </Form.Item>
-        <Form.Item>
-          <Button>添加分类</Button>
         </Form.Item>
       </Form>
     </Drawer>

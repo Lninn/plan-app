@@ -7,25 +7,50 @@ import {
   LinkInfoList,
 } from '@/app/components'
 import useApp from './useApp'
-import AppHeader from '../components/AppHeader'
 import SettingPanel from './SettingPanel'
+import { useStore } from '@/lib/store'
+import { useShallow } from 'zustand/react/shallow'
+import { useEffect } from 'react'
 
+
+function useAppModal() {
+  return useStore(
+    useShallow((store) => ({
+      createDialogOpen: store.createDialogOpen,
+      settingPanelOpen: store.settingPanelOpen,
+      showCreateDialog: () => store.changeCreateDialogOpen(true),
+      closeCreateDialog: () => store.changeCreateDialogOpen(false),
+      closeSettingPanel: () => store.changeSettingPanelOpen(false),
+    })),
+  );
+}
 
 export default function ClientApp() {
  
   const {
-    createDialogOpen,
     dataSource,
     categories,
     tagOptions,
     appendList,
-    closeCreateDialog,
-    settingPanelOpen,
-    openSettingPanel,
-    closeSettingPanel,
-    openAddDialog,
     toggleEnv,
   } = useApp()
+
+  const {
+    createDialogOpen,
+    showCreateDialog,
+    closeCreateDialog,
+    settingPanelOpen,
+    closeSettingPanel,
+  } = useAppModal()
+
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.metaKey && e.key === 'k') {
+        showCreateDialog()
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+  }, [])
 
   function isExist(name: string) {
     const i = dataSource.findIndex(item => item.title === name)
@@ -33,13 +58,7 @@ export default function ClientApp() {
   }
 
   return (
-    <div>
-      <AppHeader
-        openAddDialog={openAddDialog}
-        openSettingPanel={openSettingPanel}
-        tagOptions={tagOptions}
-      />
-
+    <>
       <div className={style.content}>
         <LinkInfoList dataSource={dataSource} />
       </div>
@@ -61,6 +80,6 @@ export default function ClientApp() {
         onClose={closeSettingPanel}
         toggleEnv={toggleEnv}
       />
-    </div>
+    </>
   )
 }

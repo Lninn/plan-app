@@ -1,8 +1,9 @@
+import "./globals.css";
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
-import { Suspense } from "react";
-// import Nav from "./nav";
+import StoreProvider from "@/lib/StoreProvider";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,11 +20,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Suspense>
-          {/* <Nav /> */}
-          <div>hello</div>
-        </Suspense>
-        {children}
+        <StoreProvider lastUpdate={new Date().getTime()}>
+          {children}
+        </StoreProvider>
       </body>
     </html>
   );
