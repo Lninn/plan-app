@@ -1,7 +1,8 @@
 import { useEffect, useReducer } from 'react'
-import { createMockDataList, createMockTagOptions } from '@/app/mock-helper'
+import { createMockTagOptions } from '@/app/mock-helper'
 import { Env, type ILinkInfo } from '@/app/type'
-import { type SelectProps, type CascaderProps } from 'antd'
+import { type CascaderProps, } from 'antd'
+import { type DefaultOptionType } from 'antd/es/select'
 import { categories, createMockCategores } from '@/app/category'
 import { coreInfo } from './coreInfo'
 
@@ -33,7 +34,7 @@ import { coreInfo } from './coreInfo'
 //   }
 // ]
 
-const tagOptions: SelectProps['options'] = [
+const tagOptions: DefaultOptionType[] = [
   {
     value: '英语',
     label: '英语',
@@ -53,7 +54,7 @@ const tagOptions: SelectProps['options'] = [
 ]
 
 const dataMap: Record<Env, ILinkInfo[]> = {
-  [Env.dev]: createMockDataList(),
+  [Env.dev]: [],
   [Env.prod]: [],
 }
 
@@ -62,7 +63,7 @@ const categoriesMap: Record<Env, CascaderProps['options']> = {
   [Env.prod]: categories,
 }
 
-const tagOptionsMap: Record<Env, SelectProps['options']> = {
+const tagOptionsMap: Record<Env, DefaultOptionType[]> = {
   [Env.dev]: createMockTagOptions(),
   [Env.prod]: tagOptions,
 }
@@ -86,7 +87,7 @@ interface State {
 
   settingPanelOpen: boolean
   categories: CascaderProps['options']
-  tagOptions: SelectProps['options']
+  tagOptions: DefaultOptionType[]
 }
 
 const initialState: State = {

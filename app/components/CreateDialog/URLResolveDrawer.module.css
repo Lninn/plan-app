@@ -1,0 +1,14 @@
+.aiOptions {
+  margin-inline-start: auto;
+}
+.aiOptions a {
+  display: inline-flex;
+  align-items: center;
+  width: 28px;
+}
+.aiOptions a:not(:last-child) {
+  margin-inline-end: 8px;
+}
+.aiOptions img {
+  max-width: 100%;
+}

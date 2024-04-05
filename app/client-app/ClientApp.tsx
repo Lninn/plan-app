@@ -1,11 +1,8 @@
 'use client'
 
-import './index.css'
+import style from './ClientApp.module.css'
 
-import { Button, Cascader, Drawer, Form, Input, Radio, Select, Space, Switch } from 'antd'
-import { SettingOutlined } from '@ant-design/icons'
-// import CreateDialog from '@/app/components/CreateDialog'
-// import LinkInfoList from './LinkInfoList'
+import { Drawer, Form, Radio,Switch } from 'antd'
 import {
   CreateDialog,
   LinkInfoList,
@@ -14,6 +11,7 @@ import {
 import useApp from './useApp'
 import { Env } from '@/app/type'
 import { coreInfo } from './coreInfo'
+import AppHeader from './AppHeader'
 
 
 const envOptions = [
@@ -21,7 +19,7 @@ const envOptions = [
   { label: '生产环境', value: Env.prod },
 ] satisfies Array<{ label: string, value: Env }>
 
-function App() {
+export default function ClientApp() {
  
   const {
     createDialogOpen,
@@ -42,49 +40,15 @@ function App() {
     return i !== -1
   }
 
-  const [filterForm] = Form.useForm()
-
   return (
-    <div className="App">
+    <div>
+      <AppHeader
+        openAddDialog={openAddDialog}
+        openSettingPanel={openSettingPanel}
+        tagOptions={tagOptions}
+      />
 
-      <div className='App-header'>
-        <Form form={filterForm} layout='inline'>
-          <Form.Item label='关键词'>
-            <Input placeholder='请输入关键词' />
-          </Form.Item>
-          <Form.Item label='分类'>
-            <Cascader placeholder='请选择' options={categories} />
-          </Form.Item>
-          <Form.Item label='标签'>
-            <Select placeholder='请选择' options={tagOptions} style={{ width: 160 }} />
-          </Form.Item>
-          <Form.Item style={{ marginInlineStart: 'auto' }}>
-            <Space>
-              <Button
-                type='text'
-                icon={(
-                  <div className='short-key'>
-                    <Command />
-                    <span>K</span>
-                  </div>
-                )}
-                onClick={openAddDialog}
-              >
-                创建
-              </Button>
-              <Button
-                type='text'
-                onClick={openSettingPanel}
-                icon={<SettingOutlined style={{ fontSize: 16 }} />}
-              >
-                设置
-              </Button>
-            </Space>
-          </Form.Item>
-        </Form>
-      </div>
-
-      <div className="App-body">
+      <div className={style.content}>
         <LinkInfoList dataSource={dataSource} />
       </div>
 
@@ -123,5 +87,3 @@ function App() {
     </div>
   )
 }
-
-export default App

@@ -1,0 +1,63 @@
+/* ref */
+/* https://css-tricks.com/an-auto-filling-css-grid-with-max-columns/ */
+.cardList {
+  /**
+   * User input values.
+   */
+   --grid-layout-gap: 12px;
+   --grid-column-count: 8; /* This gets overridden by an inline style. */
+   --grid-item--min-width: 300px; /* This gets overridden by an inline style. */
+   
+   /**
+    * Calculated values.
+    */
+   --gap-count: calc(var(--grid-column-count) - 1);
+   --total-gap-width: calc(var(--gap-count) * var(--grid-layout-gap));
+   --grid-item--max-width: calc((100% - var(--total-gap-width)) / var(--grid-column-count));
+ 
+   display: grid;
+   grid-template-columns: repeat(auto-fill, minmax(max(var(--grid-item--min-width), var(--grid-item--max-width)), 1fr));
+   grid-gap: var(--grid-layout-gap);
+}
+
+.card {
+  display: flex;
+  gap: 8px;
+  padding: 8px 12px;
+  box-shadow: var(--inner-shadow-1);
+}
+
+.cardIcon {
+  display: flex;
+  align-items: center;
+
+  width: 36px;
+}
+
+.cardIcon img {
+  width: 100%;
+  border-radius: 50%;
+}
+
+.cardName {
+  align-self: center;
+  
+  width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  text-align: left;
+}
+
+.tagList {
+  align-self: center;
+
+  display: flex;
+  gap: 4px;
+}
+
+.tagItem {
+  color: #666;
+}
+

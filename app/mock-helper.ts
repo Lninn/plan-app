@@ -1,6 +1,7 @@
 import mockjs from 'mockjs'
 import { SelectProps } from 'antd'
 import { type ILinkInfo } from "./type"
+import { DefaultOptionType } from 'antd/es/select'
 
 
 export function createMockDataList(count = 50): ILinkInfo[] {
@@ -21,7 +22,7 @@ export function createMockDataList(count = 50): ILinkInfo[] {
   return list
 }
 
-export function createMockTagOptions(): SelectProps['options'] {
+export function createMockTagOptions(): DefaultOptionType[] {
   const mockRes = mockjs.mock({
     'list|40': [{
       'tag': '@cword(3, 8)',

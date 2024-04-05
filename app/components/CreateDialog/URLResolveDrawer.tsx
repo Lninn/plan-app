@@ -1,3 +1,5 @@
+import style from './URLResolveDrawer.module.css'
+
 import { useState } from "react"
 import { Button, Drawer, Flex, Form, Input, message } from "antd"
 import Editor from "./JSONEditor"
@@ -219,7 +221,7 @@ export default function URLResolveDrawer(
         >
           复制到剪切板
         </Button>
-        <div className='LLM-list'>
+        <div className={style.aiOptions}>
           {AI_LIST.map((record, idx) => {
             return (
               <a key={idx} href={record.url} target='_blank' title={record.title}>

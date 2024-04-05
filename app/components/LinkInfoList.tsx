@@ -1,4 +1,5 @@
 import { type ILinkInfo } from "@/app/type";
+import style from './LinkInfoList.module.css'
 
 
 interface LinkInfoListProps {
@@ -8,26 +9,27 @@ interface LinkInfoListProps {
 export default function LinkInfoList(
   { dataSource }: LinkInfoListProps
 ) {
+  console.log(dataSource);
   return (
-    <div className='data-list'>
+    <div className={style.cardList}>
       {dataSource.map((record, idx) => {
         return (
-          <div key={idx} className='card'>
-            <div className='card-icon'>
+          <div key={idx} className={style.card}>
+            <div className={style.cardIcon}>
               <img src={record.icon} />
             </div>
             <a
               href={record.url}
               target='_blank'
               title={record.title}
-              className='card-name'
+              className={style.cardName}
             >
               {record.title}
             </a>
-            <div className='card-tagList'>
+            <div className={style.tagList}>
               {record.tags.map(tagName => {
                 return (
-                  <div key={tagName} className='tag'>{tagName}</div>
+                  <div key={tagName} className={style.tagItem}>{tagName}</div>
                 )
               })}
             </div>

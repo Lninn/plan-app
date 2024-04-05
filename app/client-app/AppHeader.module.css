@@ -1,0 +1,21 @@
+.shortKey {
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  line-height: 0;
+  vertical-align: -0.125em;
+  border: 1px solid rgb(226, 226, 227);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: rgba(60, 60, 67, .78);
+}
+
+.appHeader {
+  position: sticky;
+  top: 0;
+  background-color: #fff; 
+  padding: 16px 24px;
+  z-index: 1;
+  box-shadow: var(--shadow-3);
+}
