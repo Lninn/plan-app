@@ -4,35 +4,34 @@ import { Env, type ILinkInfo } from '@/app/type'
 import { type SelectProps, type CascaderProps } from 'antd'
 import { categories, createMockCategores } from '@/app/category'
 import { coreInfo } from './coreInfo'
-import { getUUID } from '@/app/uuid'
 
 
-const realList: ILinkInfo[] = [
-  {
-    id: getUUID(),
-    title: 'Linggle',
-    url: 'https://linggle.com',
-    icon: 'https://besticon-demo.herokuapp.com/icon?size=80..120..200&url=linggle.com',
-    categories: [],
-    tags: ['英语', '语言学习', '翻译']
-  },
-  {
-    id: getUUID(),
-    title: 'Netspeak',
-    url: 'https://netspeak.org',
-    icon: 'https://besticon-demo.herokuapp.com/icon?size=80..120..200&url=netspeak.org',
-    categories: [],
-    tags: ['英语', '语言学习', '翻译'],
-  },
-  {
-    id: getUUID(),
-    title: '知乎',
-    url: 'https://www.zhihu.com',
-    icon: 'https://besticon-demo.herokuapp.com/icon?size=80..120..200&url=www.zhihu.com',
-    categories: [],
-    tags: ['问答社区']
-  }
-]
+// const realList: ILinkInfo[] = [
+//   {
+//     id: getUUID(),
+//     title: 'Linggle',
+//     url: 'https://linggle.com',
+//     icon: 'https://besticon-demo.herokuapp.com/icon?size=80..120..200&url=linggle.com',
+//     categories: [],
+//     tags: ['英语', '语言学习', '翻译']
+//   },
+//   {
+//     id: getUUID(),
+//     title: 'Netspeak',
+//     url: 'https://netspeak.org',
+//     icon: 'https://besticon-demo.herokuapp.com/icon?size=80..120..200&url=netspeak.org',
+//     categories: [],
+//     tags: ['英语', '语言学习', '翻译'],
+//   },
+//   {
+//     id: getUUID(),
+//     title: '知乎',
+//     url: 'https://www.zhihu.com',
+//     icon: 'https://besticon-demo.herokuapp.com/icon?size=80..120..200&url=www.zhihu.com',
+//     categories: [],
+//     tags: ['问答社区']
+//   }
+// ]
 
 const tagOptions: SelectProps['options'] = [
   {
@@ -55,7 +54,7 @@ const tagOptions: SelectProps['options'] = [
 
 const dataMap: Record<Env, ILinkInfo[]> = {
   [Env.dev]: createMockDataList(),
-  [Env.prod]: realList,
+  [Env.prod]: [],
 }
 
 const categoriesMap: Record<Env, CascaderProps['options']> = {

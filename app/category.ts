@@ -59,6 +59,10 @@ export const categories: CascaderProps['options'] = [
 ]
 
 export function createMockCategores() {
+  if (typeof window === 'undefined') {
+    return [];
+  }
+
   const primaryCategories = [  
     '美食',  
     '旅游',  

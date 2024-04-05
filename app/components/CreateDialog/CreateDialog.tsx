@@ -14,9 +14,28 @@ import { useReducer } from "react"
 import URLResolveDrawer from "./URLResolveDrawer"
 import { type ILinkInfo } from "@/app/type"
 import FormTable from "./FormTable"
-import { createLinkRecord } from "@/app/data"
 import { LinkOutlined } from "@ant-design/icons"
+import { getUUID } from "@/app/uuid"
+import { getRandomIcon } from "@/app/mock-helper"
 
+
+function createLinkRecord(
+  {
+    title,
+    url,
+    tags,
+    categories,
+  }: Pick<ILinkInfo, 'title' | 'url' | 'tags' | 'categories'>
+): ILinkInfo {
+  return {
+    id: getUUID(),
+    title,
+    url,
+    tags,
+    categories,
+    icon: getRandomIcon(),
+  }
+}
 
 interface CreateDialogProps {
   open: boolean

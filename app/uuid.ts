@@ -1,8 +1,14 @@
+'use client'
+
 export function getUUID() {
   return generateUniqueGlobalID();
 }
 
 function generateUniqueGlobalID() {
+  if (typeof window === 'undefined') {
+    return '';
+  }
+
   const timestamp = Date.now();
   const randomPart = Math.floor(Math.random() * 0xFFFFFFFFFFFFF); // 48-bit random number
   const userAgentHash = hashUserAgent(window.navigator.userAgent); // Hash of the user agent string
