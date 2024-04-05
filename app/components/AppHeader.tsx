@@ -3,7 +3,7 @@ import style from './AppHeader.module.css'
 import { Button, Cascader, Form, Input, Select, Space } from "antd";
 import { SettingOutlined } from "@ant-design/icons";
 import { categories } from "../category";
-import { Command } from "../components";
+import { Command } from ".";
 import { type DefaultOptionType } from 'antd/es/select'
 
 

@@ -2,21 +2,14 @@
 
 import style from './ClientApp.module.css'
 
-import { Drawer, Form, Radio,Switch } from 'antd'
 import {
   CreateDialog,
   LinkInfoList,
 } from '@/app/components'
 import useApp from './useApp'
-import { Env } from '@/app/type'
-import { coreInfo } from './coreInfo'
-import AppHeader from './AppHeader'
+import AppHeader from '../components/AppHeader'
+import SettingPanel from './SettingPanel'
 
-
-const envOptions = [
-  { label: '开发环境', value: Env.dev },
-  { label: '生产环境', value: Env.prod },
-] satisfies Array<{ label: string, value: Env }>
 
 export default function ClientApp() {
  
@@ -63,26 +56,11 @@ export default function ClientApp() {
         }}
       />
 
-      <Drawer
-        title="系统面板"
+      <SettingPanel
         open={settingPanelOpen}
         onClose={closeSettingPanel}
-        width={450}
-      >
-        <Form
-          initialValues={coreInfo.getSettingFormInitialValue()}
-          onValuesChange={partialValues => {
-            coreInfo.syncSettingFormValue(partialValues)
-          }}
-        >
-          <Form.Item label='暗黑模式'>
-            <Switch />
-          </Form.Item>
-          <Form.Item label='环境' name='env'>
-            <Radio.Group options={envOptions} onChange={e => toggleEnv(e.target.value)} />
-          </Form.Item>
-        </Form>
-      </Drawer>
+        toggleEnv={toggleEnv}
+      />
     </div>
   )
 }
