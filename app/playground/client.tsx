@@ -18,13 +18,13 @@ export default function ClientApp() {
         columns={[
           {
             title: '一级分类',
-            dataIndex: 'firstCategory',
-            key: 'firstCategory',
+            dataIndex: 'value',
+            key: 'value',
           },
           {
             title: '二级分类',
-            dataIndex: 'secondCategory',
-            key: 'secondCategory',
+            dataIndex: 'value',
+            key: 'value',
           },
           {
             title: '操作',

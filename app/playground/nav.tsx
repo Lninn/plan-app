@@ -1,7 +1,7 @@
 'use client'
 
 import { useStore } from "@/lib/playgroundStore";
-import { Button } from "antd"
+import { Button, Space } from "antd"
 import { useShallow } from "zustand/react/shallow";
 
 
@@ -19,9 +19,10 @@ export default function Nav() {
 
   return (
     <header>
-      <div>
+      <Space>
         <Button onClick={showCreateCategoryModal}>添加分类</Button>
-      </div>
+        <Button onClick={showCreateCategoryModal}>清空分类</Button>
+      </Space>
     </header>
   )
 }
