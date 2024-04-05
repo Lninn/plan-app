@@ -6,7 +6,6 @@ import { Drawer, Form, Radio,Switch } from 'antd'
 import {
   CreateDialog,
   LinkInfoList,
-  Command,
 } from '@/app/components'
 import useApp from './useApp'
 import { Env } from '@/app/type'
