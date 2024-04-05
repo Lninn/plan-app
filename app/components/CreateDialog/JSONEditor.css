@@ -1,0 +1,5 @@
+.vanilla-jsoneditor-react {
+  .jse-main {
+    min-height: 300px !important;
+  }
+}
