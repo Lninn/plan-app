@@ -1,17 +1,16 @@
-import { Table } from "antd";
-import CreateDialog from "./CreateDialog";
 import Nav from './nav'
+import ClientApp from './client'
+import { StoreProvider } from '@/lib/playgroundStore';
+
 
 export default async function Playground() {
   return (
-    <div>
+    <StoreProvider lastUpdate={new Date().getTime()}>
       <Nav />
-      
+
       <main>
-        <Table dataSource={[]} />
+        <ClientApp />
       </main>
-      
-      <CreateDialog />
-    </div>
+    </StoreProvider>
   );
 }
