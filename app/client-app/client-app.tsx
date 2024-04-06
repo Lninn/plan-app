@@ -1,12 +1,12 @@
 'use client'
 
-import style from './ClientApp.module.css'
+import style from './client-app.module.css'
 
 import {
   CreateDialog,
   LinkInfoList,
 } from '@/app/components'
-import SettingPanel from './SettingPanel'
+import SettingPanel from './setting-panel'
 import { useStore } from '@/lib/store'
 import { useShallow } from 'zustand/react/shallow'
 import { useEffect } from 'react'
