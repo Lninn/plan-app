@@ -17,14 +17,15 @@ export default function ClientApp() {
   return (
     <main className={style.container}>
       <Table
+        rowKey='_id'
         columns={[
           {
-            title: '一级分类',
+            title: '分类名称',
             dataIndex: 'value',
             key: 'value',
           },
           {
-            title: '二级分类',
+            title: '分类值',
             dataIndex: 'value',
             key: 'value',
           },

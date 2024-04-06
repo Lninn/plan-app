@@ -51,10 +51,10 @@ export default function AddCategoryModal(){
           closeAddCategoryModal();
         })
       } else {
-        message.error('添加失败')
+        message.error(createRes.msg)
       }
     } catch (error) {
-      //
+      message.error('添加失败')
     }
   }
 
