@@ -26,7 +26,7 @@ interface UserConfig {
   };
 }
 
-export const APPEARANCE_KEY = 'vitepress-theme-appearance'
+const APPEARANCE_KEY = 'vitepress-theme-appearance'
 const userConfig: UserConfig = {
   appearance: 'auto',
 }
