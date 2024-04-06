@@ -1,19 +1,21 @@
 'use client'
 
 import { Table } from "antd"
-import AddCategoryModal from "./AddCategoryModal"
+import AddCategoryModal from "./add-category"
 import useSWR from "swr";
 import { fetcher } from "@/app/helper";
+
+import style from "./client.module.css"
 
 
 export default function ClientApp() {
   const {
     data,
     isLoading,
-  } = useSWR('/api/category', fetcher);
+  } = useSWR('/api/category', fetcher, { dedupingInterval: 0, revalidateOnFocus: false });
 
   return (
-    <>
+    <main className={style.container}>
       <Table
         columns={[
           {
@@ -37,6 +39,6 @@ export default function ClientApp() {
       />
 
       <AddCategoryModal />
-    </>
+    </main>
   )
 }

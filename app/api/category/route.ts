@@ -22,10 +22,10 @@ export async function POST(request: Request) {
   const document = [
     {
       label: firstCategory,
-      value: secondCategory,
+      value: firstCategory,
       children: [
         {
-          label: firstCategory,
+          label: secondCategory,
           value: secondCategory,
         }
       ]
