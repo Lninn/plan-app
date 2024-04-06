@@ -17,4 +17,5 @@
   padding: 16px 24px;
   z-index: 1;
   box-shadow: var(--shadow-3);
+  background-color: var(--ant-layout-body-bg);
 }
