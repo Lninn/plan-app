@@ -1,13 +1,14 @@
-import { Table, Form, Input, Select, Button } from "antd"
-import { type ILinkInfo } from "@/app/type"
+import { Table, Form, Input, Select, Button, Cascader } from "antd"
+import { type CategorizedTagInfo } from "@/app/type"
 import { type ColumnsType } from "antd/es/table"
-import CategoryCascader from "../CategoryCascader"
+import { DefaultOptionType } from "antd/es/select"
 
 
 interface FormTableProps {
-  value?: ILinkInfo[]
-  onChange?: (value: ILinkInfo[]) => void
+  value?: CategorizedTagInfo[]
+  onChange?: (value: CategorizedTagInfo[]) => void
   isExist: (name: string) => boolean
+  categoryList: DefaultOptionType[]
 }
 
 export default function FormTable(
@@ -15,6 +16,7 @@ export default function FormTable(
     value,
     onChange,
     isExist,
+    categoryList,
   }: FormTableProps
 ) {
   function removeById(id: string) {
@@ -24,7 +26,7 @@ export default function FormTable(
     onChange(newDataSource)
   }
 
-  const columns: ColumnsType<ILinkInfo>  = [
+  const columns: ColumnsType<CategorizedTagInfo>  = [
     {
       title: '名称',
       dataIndex: 'title',
@@ -63,7 +65,7 @@ export default function FormTable(
             style={{ marginBlock: 0 }}
             rules={[{ required: true }]}
           >
-            <CategoryCascader />
+            <Cascader placeholder='请选择' options={categoryList} />
           </Form.Item>
         )
       }

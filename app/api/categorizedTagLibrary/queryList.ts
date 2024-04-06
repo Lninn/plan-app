@@ -7,7 +7,7 @@ export async function queryList() {
 
   const result= await CategorizedTagLibrary.find()
 
-  console.log('接口访问成功', { result })
+  // console.log('接口访问成功', { result })
 
-  return Response.json({ data: result })
+  return Response.json({ ok: true, data: result })
 }

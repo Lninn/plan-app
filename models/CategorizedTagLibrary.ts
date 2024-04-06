@@ -12,31 +12,31 @@ export interface CategorizedTagLibraries extends mongoose.Document {
 const CategorizedTagLibrarySchema = new mongoose.Schema<CategorizedTagLibraries>({
   title: {
     type: String,
-    required: [true, "title is required"],
-    maxlength: [60, "count cannot be more than 60 characters"],
+    required: [true, '请输入标题'],
+    maxlength: [60, '标题最多60个字符'],
   },
   url: {
     type: String,
-    required: [true, "url is required"],
-    maxlength: [60, "count cannot be more than 60 characters"],
+    required: [true, '请输入链接'],
+    maxlength: [60, '标题最多60个字符'],
   },
   icon: {
     type: String,
-    required: [true, "icon is required"],
-    maxlength: [60, "count cannot be more than 60 characters"],
+    required: [true, '请输入图标'],
+    maxlength: [60, '标题最多60个字符'],
   },
   categories: {
     type: [String],
     default: [],
-    required: [true, "categories are required"],
-    length: [2, "no more than 2 categories allowed"],
+    required: [true, '请输入分类'],
+    length: [2, '最多2个分类'],
   },
   tags: {
     type: [String],
     default: [],
-    required: [true, "tags are required"],
-    maxlength: [60, "count cannot be more than 60 characters"],
+    required: [true, '请输入标签'],
+    maxlength: [60, '最多60个标签'],
   }
-}, { _id: false });
+}, { _id: true, timestamps: true });
 
 export default mongoose.models.CategorizedTagLibrary || mongoose.model<CategorizedTagLibraries>("CategorizedTagLibrary", CategorizedTagLibrarySchema);

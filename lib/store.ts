@@ -3,11 +3,17 @@
 import { createContext, useContext } from "react";
 import { createStore, useStore as useZustandStore } from "zustand";
 import { PreloadedStoreInterface } from "./StoreProvider";
+import { DefaultOptionType } from "antd/es/select";
 
 export interface StoreInterface {
   lastUpdate: number;
+
   createDialogOpen: boolean
   settingPanelOpen: boolean
+
+  categoryList: DefaultOptionType[];
+  setCategoryList: (categoryList: DefaultOptionType[]) => void;
+
   changeCreateDialogOpen: (open: boolean) => void;
   changeSettingPanelOpen: (open: boolean) => void;
 }
@@ -15,8 +21,8 @@ export interface StoreInterface {
 function getDefaultInitialState() {
   return {
     lastUpdate: new Date(1970, 1, 1).getTime(),
-    light: false,
-    count: 0,
+
+    categoryList: [] as DefaultOptionType[],
 
     createDialogOpen: false,
     settingPanelOpen: false,
@@ -48,6 +54,10 @@ export function initializeStore(preloadedState: PreloadedStoreInterface) {
     changeSettingPanelOpen: (open) =>
       set({
         settingPanelOpen: open,
+      }),
+    setCategoryList: (open) =>
+      set({
+        categoryList: open,
       }),
   }));
 }

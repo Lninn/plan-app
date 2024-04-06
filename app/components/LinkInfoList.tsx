@@ -1,15 +1,14 @@
-import { type ILinkInfo } from "@/app/type";
+import { type CategorizedTagInfo } from "@/app/type";
 import style from './LinkInfoList.module.css'
 
 
 interface LinkInfoListProps {
-  dataSource: ILinkInfo[];
+  dataSource: CategorizedTagInfo[];
 }
 
 export default function LinkInfoList(
   { dataSource }: LinkInfoListProps
 ) {
-  console.log(dataSource);
   return (
     <div className={style.cardList}>
       {dataSource.map((record, idx) => {

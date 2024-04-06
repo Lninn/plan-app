@@ -8,41 +8,40 @@ import {
   Select,
   Button,
   type SelectProps,
-  message
+  message,
+  Space,
+  Cascader
 } from "antd"
 import { useReducer } from "react"
 import URLResolveDrawer from "./URLResolveDrawer"
-import { type ILinkInfo } from "@/app/type"
+import { type CategorizedTagInfo } from "@/app/type"
 import FormTable from "./FormTable"
 import { LinkOutlined } from "@ant-design/icons"
 import { getUUID } from "@/app/uuid"
-import { getRandomIcon } from "@/app/mock-helper"
-import CategoryCascader from "../CategoryCascader"
+import {
+  createCategorizedTag,
+  createEmptyTagCategoryInfo,
+  getFinalTagCategoryInfo,
+  getRandomIcon
+} from "@/shared/mock-helper"
+import { DefaultOptionType } from "antd/es/select"
+import useSWRMutation from "swr/mutation"
 
 
-function createLinkRecord(
-  {
-    title,
-    url,
-    tags,
-    categories,
-  }: Pick<ILinkInfo, 'title' | 'url' | 'tags' | 'categories'>
-): ILinkInfo {
-  return {
-    id: getUUID(),
-    title,
-    url,
-    tags,
-    categories,
-    icon: getRandomIcon(),
-  }
+async function requestCreator(url: string, { arg }: { arg: { list: CategorizedTagInfo[] }}) {
+  const formatedList = arg.list.map(({ id, ...restInfo }) => restInfo)
+
+  return fetch(url, {
+    method: 'POST',
+    body: JSON.stringify({ list: formatedList })
+  }).then(res => res.json())
 }
 
 interface CreateDialogProps {
   open: boolean
   onClose: () => void
   tagOptions: SelectProps['options']
-  submit: (record: ILinkInfo[]) => void
+  categoryList: DefaultOptionType[]
   isExist: (name: string) => boolean
 }
 
@@ -65,8 +64,8 @@ export default function CreateDialog(
   {
     open,
     onClose,
-    submit,
     tagOptions,
+    categoryList,
     isExist,
   }: CreateDialogProps
 ) {
@@ -78,19 +77,39 @@ export default function CreateDialog(
   
   const formItemLayout = { labelCol: { span: 4 }, wrapperCol: { span: 14 } }
 
+  const { trigger, isMutating } = useSWRMutation(
+    '/api/categorizedTagLibrary',
+    requestCreator
+  )
+
+  async function createTagCategoryProcess(list: CategorizedTagInfo[]) {
+    try {
+      const res = await trigger({ list })
+      if (res.ok) {
+        onClose()
+        message.success('创建成功', 1, () => {
+          resetFormState()
+        })
+      } else {
+        throw new Error(res.msg)
+      }
+    } catch (errorInfo) {
+      if (errorInfo instanceof Error) {
+        message.error(errorInfo.message)
+      }
+    }
+  } 
+
   async function handleBatchSubmit() {
     try {
       const values = await tableForm.validateFields()
-      const nextDataList: ILinkInfo[] = values.dataSource
+      const nextDataList: CategorizedTagInfo[] = values.dataSource
 
       if (nextDataList.length === 0) {
         throw new Error('请至少添加一条数据');
       }
 
-      onClose()
-      tableForm.resetFields()
-
-      submit(nextDataList)
+      await createTagCategoryProcess(nextDataList)
     } catch (e) {
       if (e instanceof Error) {
         message.error(e.message)
@@ -100,21 +119,14 @@ export default function CreateDialog(
 
   async function handleSingleSubmit() {
     try {
-      const values: Omit<ILinkInfo, 'icon' | 'id'> = await form.validateFields()
+      const values: Omit<CategorizedTagInfo, 'icon' | 'id'> = await form.validateFields()
       const { title, url, categories, tags  } = values
 
-      const nextDataList: ILinkInfo[] = [
-        createLinkRecord({
-          title: title.trim(),
-          url: url.trim(),
-          tags: tags || [],
-          categories: categories || [],
-        })
+      const nextDataList: CategorizedTagInfo[] = [
+        { id: getUUID(), icon: getRandomIcon(), title, url, categories, tags }
       ]
 
-      onClose()
-      form.resetFields()
-      submit(nextDataList)
+      await createTagCategoryProcess(nextDataList)
     } catch (e) {
       //
     }
@@ -128,6 +140,34 @@ export default function CreateDialog(
     }
   }
 
+  function resetFormState() {
+    if (state.activeKey === '1') {
+      form.resetFields()
+    } else {
+      tableForm.resetFields()
+    }
+  }
+
+  function autoFillRandomValues() {
+    const randomTagCategory = createCategorizedTag({
+      categoryList,
+    })
+
+    const {
+      title,
+      url,
+      categories,
+      tags,
+    } = randomTagCategory
+  
+    form.setFieldsValue({
+      title,
+      url,
+      categories,
+      tags,
+    })
+  }
+
   return (
     <Modal
       title="数据导入"
@@ -135,6 +175,7 @@ export default function CreateDialog(
       onCancel={onClose}
       width={800}
       maskClosable={false}
+      confirmLoading={isMutating}
       onOk={handleAddSubmit}
     >
       <Tabs
@@ -146,34 +187,42 @@ export default function CreateDialog(
             label: '添加数据',
             key: '1',
             children: (
-              <Form form={form} style={{ maxWidth: 600 }} {...formItemLayout}>
-                <Form.Item
-                  label='名称'
-                  name='title'
-                  rules={[
-                    { required: true, },
-                    () => ({
-                      validator(_, value) {
-                        if (isExist(value)) {
-                          return Promise.reject(new Error('名称已存在'))
-                        }
-                        return Promise.resolve()
-                      },
-                    }),
-                  ]}
-                >
-                  <Input autoFocus placeholder='请输入' />
-                </Form.Item>
-                <Form.Item label='网址' name='url' rules={[{ required: true }]}>
-                  <Input placeholder='请输入' type='url' />
-                </Form.Item>
-                <Form.Item label='分类' name='categories' rules={[{ required: true }]}>
-                  <CategoryCascader />
-                </Form.Item>
-                <Form.Item label='标签' name='tags' rules={[{ required: true }]}>
-                  <Select mode='tags' placeholder='请选择' options={tagOptions} />
-                </Form.Item>
-              </Form>
+              <div>
+                <div style={{ marginBlockEnd: 16, textAlign: 'right' }}>
+                  <Space>
+                    <Button onClick={autoFillRandomValues}>自动填充随机值</Button>
+                  </Space>
+                </div>
+
+                <Form form={form} style={{ maxWidth: 600 }} {...formItemLayout}>
+                  <Form.Item
+                    label='名称'
+                    name='title'
+                    rules={[
+                      { required: true, },
+                      () => ({
+                        validator(_, value) {
+                          if (isExist(value)) {
+                            return Promise.reject(new Error('名称已存在'))
+                          }
+                          return Promise.resolve()
+                        },
+                      }),
+                    ]}
+                  >
+                    <Input autoFocus placeholder='请输入' />
+                  </Form.Item>
+                  <Form.Item label='网址' name='url' rules={[{ required: true }]}>
+                    <Input placeholder='请输入' type='url' />
+                  </Form.Item>
+                  <Form.Item label='分类' name='categories' rules={[{ required: true }]}>
+                    <Cascader placeholder='请选择' options={categoryList} />
+                  </Form.Item>
+                  <Form.Item label='标签' name='tags' rules={[{ required: true }]}>
+                    <Select mode='tags' placeholder='请选择' options={tagOptions} />
+                  </Form.Item>
+                </Form>
+              </div>
             ),
           },
           {
@@ -192,16 +241,14 @@ export default function CreateDialog(
                     </Button>
                   </Form.Item>
                 </Form>
-                <Form form={tableForm} initialValues={{ 
-                  dataSource: [createLinkRecord({
-                    title: '',
-                    url: '',
-                    tags: [],
-                    categories: []
-                  })]
-                   }}>
+                <Form
+                  form={tableForm}
+                  initialValues={{
+                    dataSource: [ createEmptyTagCategoryInfo() ]
+                   }}
+                  >
                   <Form.Item name='dataSource'>
-                    <FormTable isExist={isExist} />
+                    <FormTable isExist={isExist} categoryList={categoryList} />
                   </Form.Item>
                 </Form>
               </div>
@@ -209,16 +256,13 @@ export default function CreateDialog(
           }
         ]}
       />
+
       <URLResolveDrawer
         open={state.drawerOpen}
         onClose={() => dispatch({ drawerOpen: false })}
         submit={records => {
-
-          const finalRecords = records.map(datum => {
-            return createLinkRecord({
-              ...datum,
-              categories: [],
-            })
+          const finalRecords: CategorizedTagInfo[] = records.map(datum => {
+            return getFinalTagCategoryInfo(datum)
           })
 
           console.log('[URLResolveDrawer-submit] ', {

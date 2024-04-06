@@ -4,15 +4,8 @@ import { useStore } from "@/lib/playgroundStore";
 import { Modal, Form, Input, Button, message } from "antd";
 import { useShallow } from "zustand/react/shallow";
 import useSWRMutation from "swr/mutation";
-import mockjs from 'mockjs'
+import { CategoryUtil } from '@/shared/category-util'
 
-
-// 生成随机的中文分类数据
-function generateRandomCategory() {
-  const firstCategory = mockjs.mock('@cword(3, 10)')
-  const secondCategory = mockjs.mock('@cword(3, 10)')
-  return { firstCategory, secondCategory }
-}
 
 async function sendRequest(url: string, { arg }: { arg: { firstCategory: string, secondCategory: string }}) {
   return fetch(url, {
@@ -64,8 +57,7 @@ export default function AddCategoryModal(){
   }
 
   function fillRandomCategory() {
-    const randomCategory = generateRandomCategory();
-    // console.log(randomCategory)
+    const randomCategory = CategoryUtil.getRandomCategoryPair()
     form.setFieldsValue(randomCategory)
   }
 

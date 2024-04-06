@@ -2,28 +2,29 @@
 
 import style from './AppHeader.module.css'
 
-import { Button, Form, Input, Select, Space } from "antd";
+import { Button, Cascader, Form, Input, Select, Space } from "antd";
 import { SettingOutlined } from "@ant-design/icons";
 import { Command } from "@/app/components";
 import { useStore } from '@/lib/store';
 import { useShallow } from 'zustand/react/shallow';
-import CategoryCascader from './CategoryCascader';
 
 
-function useModalAction() {
+function useHeaderAction() {
   return useStore(
     useShallow((store) => ({
+      categoryList: store.categoryList,
       showCreateModal: () => store.changeCreateDialogOpen(true),
-      showSettingPanel: () => store.changeSettingPanelOpen(true)
+      showSettingPanel: () => store.changeSettingPanelOpen(true),
     })),
   );
 }
 
 export default function AppHeader() {
   const {
+    categoryList,
     showCreateModal,
-    showSettingPanel
-  } = useModalAction()
+    showSettingPanel,
+  } = useHeaderAction()
 
   const [form] = Form.useForm()
 
@@ -34,7 +35,7 @@ export default function AppHeader() {
           <Input placeholder='请输入关键词' />
         </Form.Item>
         <Form.Item label='分类'>
-          <CategoryCascader />
+          <Cascader placeholder='请选择' options={categoryList} />
         </Form.Item>
         <Form.Item label='标签'>
             {/* TODO */}

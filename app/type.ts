@@ -1,4 +1,4 @@
-export interface ILinkInfo {
+export interface CategorizedTagInfo {
   id: string;
   title: string
   url: string

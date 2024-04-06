@@ -6,14 +6,17 @@ import {
   CreateDialog,
   LinkInfoList,
 } from '@/app/components'
-import useApp from './useApp'
 import SettingPanel from './SettingPanel'
 import { useStore } from '@/lib/store'
 import { useShallow } from 'zustand/react/shallow'
 import { useEffect } from 'react'
+import useSWR from 'swr'
+import { fetcher } from '../helper'
+import { type CategorizedTagInfo } from '../type'
+import { useCategory } from '@/hooks'
 
 
-function useAppModal() {
+function useAppAction() {
   return useStore(
     useShallow((store) => ({
       createDialogOpen: store.createDialogOpen,
@@ -21,18 +24,24 @@ function useAppModal() {
       showCreateDialog: () => store.changeCreateDialogOpen(true),
       closeCreateDialog: () => store.changeCreateDialogOpen(false),
       closeSettingPanel: () => store.changeSettingPanelOpen(false),
+      setCategoryList: store.setCategoryList
     })),
   );
 }
 
 export default function ClientApp() {
- 
+
   const {
-    dataSource,
-    tagOptions,
-    appendList,
-    toggleEnv,
-  } = useApp()
+    data = [],
+  } = useSWR<CategorizedTagInfo[]>(
+    '/api/categorizedTagLibrary',
+    fetcher,
+    { dedupingInterval: 0, revalidateOnFocus: false }
+  );
+
+  const {
+    data: categoryData = [],
+  } = useCategory()
 
   const {
     createDialogOpen,
@@ -40,7 +49,14 @@ export default function ClientApp() {
     closeCreateDialog,
     settingPanelOpen,
     closeSettingPanel,
-  } = useAppModal()
+    setCategoryList,
+  } = useAppAction()
+
+  useEffect(() => {
+    if (!categoryData) return
+
+    setCategoryList(categoryData)
+  }, [JSON.stringify(categoryData)])
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
@@ -48,35 +64,33 @@ export default function ClientApp() {
         showCreateDialog()
       }
     }
+
     window.addEventListener('keydown', handleKeyDown)
   }, [])
 
   function isExist(name: string) {
-    const i = dataSource.findIndex(item => item.title === name)
+    const i = data.findIndex(item => item.title === name)
     return i !== -1
   }
 
   return (
     <>
       <div className={style.content}>
-        <LinkInfoList dataSource={dataSource} />
+        <LinkInfoList dataSource={data} />
       </div>
 
       <CreateDialog
         open={createDialogOpen}
-        tagOptions={tagOptions}
+        tagOptions={[]}
         isExist={isExist}
         onClose={closeCreateDialog}
-        submit={records => {
-          console.log('[CreateDialog-submit]', records)
-          appendList(records)
-        }}
+        categoryList={categoryData}
       />
 
       <SettingPanel
         open={settingPanelOpen}
         onClose={closeSettingPanel}
-        toggleEnv={toggleEnv}
+        toggleEnv={() => {}}
       />
     </>
   )

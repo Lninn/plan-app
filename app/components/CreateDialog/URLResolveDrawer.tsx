@@ -6,7 +6,7 @@ import Editor from "./JSONEditor"
 import { CopyOutlined, ImportOutlined } from "@ant-design/icons"
 import { JSONEditorPropsOptional } from 'vanilla-jsoneditor'
 import type { Content } from 'vanilla-jsoneditor';
-import { type ILinkInfo } from "@/app/type"
+import { type CategorizedTagInfo } from "@/app/type"
 
 
 const AI_LIST = [
@@ -38,7 +38,7 @@ const getPromptTemplate = (content: string) => {
 interface URLResolveDrawerProps {
   open: boolean;
   onClose: () => void;
-  submit: (record: Pick<ILinkInfo, 'title' | 'url' | 'tags'>[]) => void;
+  submit: (record: Pick<CategorizedTagInfo, 'title' | 'url' | 'tags'>[]) => void;
 }
 
 export default function URLResolveDrawer(
@@ -83,7 +83,7 @@ export default function URLResolveDrawer(
       }
 
       let resultList = (
-        ('json' in themeConfigContent ? themeConfigContent.json : []) as ILinkInfo[])
+        ('json' in themeConfigContent ? themeConfigContent.json : []) as CategorizedTagInfo[])
 
       if (!Array.isArray(resultList)) {
         message.error('只支持 Array 格式')

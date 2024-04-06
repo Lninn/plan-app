@@ -41,7 +41,7 @@ export async function GET() {
     await dbConnect()
   
     const listQuery = await Category.find()
-    console.log('debug ', JSON.stringify(listQuery, null, 2))
+    // console.log('debug ', JSON.stringify(listQuery, null, 2))
 
     const prunedQueries = pruneUnnecessaryFields(listQuery)
     return Response.json({ ok: true, data: prunedQueries })
