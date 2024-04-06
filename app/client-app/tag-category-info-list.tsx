@@ -1,12 +1,13 @@
+import style from './tag-category-info-list.module.css';
+
 import { type CategorizedTagInfo } from "@/shared/type";
-import style from './LinkInfoList.module.css'
 
 
 interface LinkInfoListProps {
   dataSource: CategorizedTagInfo[];
 }
 
-export default function LinkInfoList(
+export default function CategorizedTagInfoList(
   { dataSource }: LinkInfoListProps
 ) {
   return (

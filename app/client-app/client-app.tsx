@@ -2,19 +2,17 @@
 
 import style from './client-app.module.css'
 
-import {
-  CreateDialog,
-  LinkInfoList,
-} from '@/app/components'
-import SettingPanel from './setting-panel'
-import { useStore } from '@/lib/store'
-import { useShallow } from 'zustand/react/shallow'
 import { useEffect } from 'react'
 import useSWR from 'swr'
-import { fetcher } from '../../shared/helper'
+import { useStore } from '@/lib/store'
+import { useShallow } from 'zustand/react/shallow'
+import { Skeleton } from 'antd'
+import { CreateDialog } from '@/app/components'
+import CategorizedTagInfoList from './tag-category-info-list'
+import SettingPanel from './setting-panel'
 import { type CategorizedTagInfo } from '@/shared/type'
 import { useCategory } from '@/hooks'
-import { Skeleton } from 'antd'
+import { fetcher } from '../../shared/helper'
 
 
 function useAppAction() {
@@ -101,7 +99,7 @@ export default function ClientApp() {
             <Skeleton paragraph={{ rows: 10 }} />
             <Skeleton paragraph={{ rows: 10 }} />
           </>
-        ) : <LinkInfoList dataSource={dataSource} />}
+        ) : <CategorizedTagInfoList dataSource={dataSource} />}
       </div>
 
       <CreateDialog
