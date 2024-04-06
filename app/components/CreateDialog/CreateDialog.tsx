@@ -17,7 +17,7 @@ import URLResolveDrawer from "./URLResolveDrawer"
 import { type CategorizedTagInfo } from "@/shared/type"
 import FormTable from "./FormTable"
 import { LinkOutlined } from "@ant-design/icons"
-import { getUUID } from "@/shared/uuid"
+// import { getUUID } from "@/shared/uuid"
 import {
   createCategorizedTag,
   createEmptyTagCategoryInfo,
@@ -123,7 +123,7 @@ export default function CreateDialog(
       const { title, url, categories, tags  } = values
 
       const nextDataList: CategorizedTagInfo[] = [
-        { id: getUUID(), icon: getRandomIcon(), title, url, categories, tags }
+        { id: '', icon: getRandomIcon(), title, url, categories, tags }
       ]
 
       await createTagCategoryProcess(nextDataList)
