@@ -12,15 +12,15 @@ const CategorySchema = new mongoose.Schema<Categories>({
     /* The label of this Category */
 
     type: String,
-    required: [true, "Please provide a label for this Category."],
-    maxlength: [60, "Label cannot be more than 60 characters"],
+    required: [true, "请提供此分类的label"],
+    maxlength: [60, "label不能超过60个字符"],
   },
   value: {
     /* The value of this Category */
 
     type: String,
-    required: [true, "Please provide the pet owner's name"],
-    maxlength: [60, "value cannot be more than 60 characters"],
+    required: [true, '请提供此分类的value'],
+    maxlength: [60, 'value不能超过60个字符'],
   },
   children: [
     {

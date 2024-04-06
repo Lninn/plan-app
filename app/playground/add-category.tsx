@@ -46,7 +46,7 @@ export default function AddCategoryModal(){
 
       const createRes = await trigger({ firstCategory, secondCategory })
       if (createRes.ok) {
-        message.success('添加成功', 1, () => {
+        message.success(createRes.msg, 1, () => {
           form.resetFields();
           closeAddCategoryModal();
         })
@@ -54,7 +54,12 @@ export default function AddCategoryModal(){
         message.error(createRes.msg)
       }
     } catch (error) {
-      message.error('添加失败')
+      // console.log(error)
+      if (error instanceof Object && 'errorFields' in error) {
+        //
+      } else {
+        message.error('添加失败')
+      }
     }
   }
 
