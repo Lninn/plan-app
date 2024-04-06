@@ -14,7 +14,7 @@
 .appHeader {
   position: sticky;
   top: 0;
-  background-color: #fff; 
+  background-color: var(--surface-1);
   padding: 16px 24px;
   z-index: 1;
   box-shadow: var(--shadow-3);

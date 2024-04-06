@@ -15,17 +15,19 @@ export default function CategorizedTagInfoList(
       {dataSource.map((record, idx) => {
         return (
           <div key={idx} className={style.card}>
-            <div className={style.cardIcon}>
-              <img src={record.icon} />
+            <div className={style.header}>
+              <div className={style.cardIcon}>
+                <img src={record.icon} />
+              </div>
+              <a
+                href={record.url}
+                target='_blank'
+                title={record.title}
+                className={style.cardName}
+              >
+                {record.title}
+              </a>
             </div>
-            <a
-              href={record.url}
-              target='_blank'
-              title={record.title}
-              className={style.cardName}
-            >
-              {record.title}
-            </a>
             <div className={style.tagList}>
               {record.tags.map(tagName => {
                 return (

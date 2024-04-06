@@ -1,6 +1,8 @@
-import { Drawer, Form, Switch, Radio } from "antd"
+import { Drawer, Form, Radio, Segmented } from "antd"
 import { coreInfo } from "./coreInfo"
 import { Env } from "@/shared/type"
+import { DarkTheme, Light } from "../icons"
+import React from "react"
 
 
 interface SettingPanelProps {
@@ -21,6 +23,11 @@ export default function SettingPanel(
     toggleEnv
   }: SettingPanelProps
 ) {
+
+  function handleModeChange() {
+    document.documentElement.classList.toggle('dark')
+  }
+
   return(
     <Drawer
       title="系统面板"
@@ -35,7 +42,14 @@ export default function SettingPanel(
         }}
       >
         <Form.Item label='暗黑模式'>
-          <Switch />
+          <Segmented
+            options={[
+              { icon: <Light style={{ fontSize: 16 }} />, value: 'light' },
+              { icon: <DarkTheme style={{ fontSize: 16 }} />, value: 'dark' },
+            ]}
+            onChange={handleModeChange}
+            style={{ marginLeft: 'auto' }}
+          />
         </Form.Item>
         <Form.Item label='环境' name='env'>
           <Radio.Group options={envOptions} onChange={e => toggleEnv(e.target.value)} />

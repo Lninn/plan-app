@@ -22,9 +22,16 @@
 
 .card {
   display: flex;
+  flex-direction: column;
   gap: 8px;
   padding: 8px 12px;
-  box-shadow: var(--inner-shadow-1);
+  box-shadow: var(--shadow-1);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .cardIcon {
@@ -42,22 +49,21 @@
 .cardName {
   align-self: center;
   
-  width: 80px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 
   text-align: left;
+  color: var(--text-1);
 }
 
 .tagList {
-  align-self: center;
-
   display: flex;
   gap: 4px;
 }
 
 .tagItem {
-  color: #666;
+  font-size: 12px;
+  color: var(--text-2);
 }
 
