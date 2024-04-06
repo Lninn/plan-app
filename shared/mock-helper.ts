@@ -1,5 +1,5 @@
 import mockjs from 'mockjs'
-import { type CategorizedTagInfo } from "../app/type"
+import { type CategorizedTagInfo } from "./type"
 import { DefaultOptionType } from 'antd/es/select'
 import { CategoryUtil, type ICategoryOption } from './category-util'
 

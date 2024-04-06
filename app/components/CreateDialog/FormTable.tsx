@@ -1,5 +1,5 @@
 import { Table, Form, Input, Select, Button, Cascader } from "antd"
-import { type CategorizedTagInfo } from "@/app/type"
+import { type CategorizedTagInfo } from "@/shared/type"
 import { type ColumnsType } from "antd/es/table"
 import { DefaultOptionType } from "antd/es/select"
 

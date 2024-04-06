@@ -1,4 +1,4 @@
-import { AppHeader } from "./components";
+import AppHeader from "./app-header";
 
 export default function Nav() {
   return <AppHeader />

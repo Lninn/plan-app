@@ -1,4 +1,4 @@
-import { Env } from "@/app/type"
+import { Env } from "@/shared/type"
 
 
 const defaultConfig = {

@@ -14,10 +14,10 @@ import {
 } from "antd"
 import { useReducer } from "react"
 import URLResolveDrawer from "./URLResolveDrawer"
-import { type CategorizedTagInfo } from "@/app/type"
+import { type CategorizedTagInfo } from "@/shared/type"
 import FormTable from "./FormTable"
 import { LinkOutlined } from "@ant-design/icons"
-import { getUUID } from "@/app/uuid"
+import { getUUID } from "@/shared/uuid"
 import {
   createCategorizedTag,
   createEmptyTagCategoryInfo,

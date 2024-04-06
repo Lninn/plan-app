@@ -1,4 +1,4 @@
-import { type CategorizedTagInfo } from "@/app/type";
+import { type CategorizedTagInfo } from "@/shared/type";
 import style from './LinkInfoList.module.css'
 
 

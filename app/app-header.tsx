@@ -1,6 +1,6 @@
 'use client'
 
-import style from './AppHeader.module.css'
+import style from './app-header.module.css'
 
 import { Button, Cascader, Form, Input, Select, Space } from "antd";
 import { SettingOutlined } from "@ant-design/icons";
@@ -15,12 +15,14 @@ function useHeaderAction() {
       categoryList: store.categoryList,
       showCreateModal: () => store.changeCreateDialogOpen(true),
       showSettingPanel: () => store.changeSettingPanelOpen(true),
+      tagOptions: store.tagOptions,
     })),
   );
 }
 
 export default function AppHeader() {
   const {
+    tagOptions,
     categoryList,
     showCreateModal,
     showSettingPanel,
@@ -38,8 +40,12 @@ export default function AppHeader() {
           <Cascader placeholder='请选择' options={categoryList} />
         </Form.Item>
         <Form.Item label='标签'>
-            {/* TODO */}
-          <Select placeholder='请选择' options={[]} style={{ width: 160 }} />
+          <Select
+            placeholder='请选择'
+            options={tagOptions}
+            style={{ width: 160 }}
+            showSearch
+          />
         </Form.Item>
         <Form.Item style={{ marginInlineStart: 'auto' }}>
           <Space>

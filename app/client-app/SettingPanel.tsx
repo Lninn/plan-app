@@ -1,6 +1,6 @@
 import { Drawer, Form, Switch, Radio } from "antd"
 import { coreInfo } from "./coreInfo"
-import { Env } from "../type"
+import { Env } from "@/shared/type"
 
 
 interface SettingPanelProps {

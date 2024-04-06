@@ -13,6 +13,8 @@ export interface StoreInterface {
 
   categoryList: DefaultOptionType[];
   setCategoryList: (categoryList: DefaultOptionType[]) => void;
+  tagOptions: DefaultOptionType[];
+  setTagOptions: (tagOptions: DefaultOptionType[]) => void;
 
   changeCreateDialogOpen: (open: boolean) => void;
   changeSettingPanelOpen: (open: boolean) => void;
@@ -23,6 +25,7 @@ function getDefaultInitialState() {
     lastUpdate: new Date(1970, 1, 1).getTime(),
 
     categoryList: [] as DefaultOptionType[],
+    tagOptions: [] as DefaultOptionType[],
 
     createDialogOpen: false,
     settingPanelOpen: false,
@@ -55,9 +58,13 @@ export function initializeStore(preloadedState: PreloadedStoreInterface) {
       set({
         settingPanelOpen: open,
       }),
-    setCategoryList: (open) =>
+    setCategoryList: (opts) =>
       set({
-        categoryList: open,
+        categoryList: opts,
+      }),
+    setTagOptions: (opts) =>
+      set({
+        tagOptions: opts,
       }),
   }));
 }

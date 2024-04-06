@@ -3,7 +3,7 @@
 import { Button, Space, Table } from "antd"
 import AddCategoryModal from "./add-category"
 import useSWR from "swr";
-import { fetcher } from "@/app/helper";
+import { fetcher } from "@/shared/helper";
 
 import style from "./client.module.css"
 

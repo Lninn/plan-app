@@ -2,7 +2,7 @@ import dbConnect from "@/lib/dbConnect";
 import { queryList } from "./queryList"
 import CategorizedTagLibrary, { CategorizedTagLibraries } from '@/models/CategorizedTagLibrary'
 import mongoose from 'mongoose'
-import { CategorizedTagInfo } from "@/app/type";
+import { CategorizedTagInfo } from "@/shared/type";
 
 export async function GET(request: Request) {
   return await queryList()

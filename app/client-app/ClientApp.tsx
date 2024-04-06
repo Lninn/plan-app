@@ -11,9 +11,10 @@ import { useStore } from '@/lib/store'
 import { useShallow } from 'zustand/react/shallow'
 import { useEffect } from 'react'
 import useSWR from 'swr'
-import { fetcher } from '../helper'
-import { type CategorizedTagInfo } from '../type'
+import { fetcher } from '../../shared/helper'
+import { type CategorizedTagInfo } from '@/shared/type'
 import { useCategory } from '@/hooks'
+import { Skeleton } from 'antd'
 
 
 function useAppAction() {
@@ -24,7 +25,10 @@ function useAppAction() {
       showCreateDialog: () => store.changeCreateDialogOpen(true),
       closeCreateDialog: () => store.changeCreateDialogOpen(false),
       closeSettingPanel: () => store.changeSettingPanelOpen(false),
-      setCategoryList: store.setCategoryList
+      setCategoryList: store.setCategoryList,
+
+      tagOptions: store.tagOptions,
+      setTagOptions: store.setTagOptions
     })),
   );
 }
@@ -32,7 +36,8 @@ function useAppAction() {
 export default function ClientApp() {
 
   const {
-    data = [],
+    data: dataSource = [],
+    isLoading,
   } = useSWR<CategorizedTagInfo[]>(
     '/api/categorizedTagLibrary',
     fetcher,
@@ -50,6 +55,8 @@ export default function ClientApp() {
     settingPanelOpen,
     closeSettingPanel,
     setCategoryList,
+
+    setTagOptions,
   } = useAppAction()
 
   useEffect(() => {
@@ -57,6 +64,18 @@ export default function ClientApp() {
 
     setCategoryList(categoryData)
   }, [JSON.stringify(categoryData)])
+
+  useEffect(() => {
+    const tags = dataSource.map(item => item.tags).flat()
+    const tagSet = new Set(tags)
+
+    const tagOptions = Array.from(tagSet).map(item => ({
+      label: item,
+      value: item
+    }))
+
+    setTagOptions(tagOptions)
+  }, [JSON.stringify(dataSource)])
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
@@ -69,14 +88,20 @@ export default function ClientApp() {
   }, [])
 
   function isExist(name: string) {
-    const i = data.findIndex(item => item.title === name)
+    const i = dataSource.findIndex(item => item.title === name)
     return i !== -1
   }
 
   return (
     <>
       <div className={style.content}>
-        <LinkInfoList dataSource={data} />
+        {isLoading ? (
+          <>
+            <Skeleton paragraph={{ rows: 10 }} />
+            <Skeleton paragraph={{ rows: 10 }} />
+            <Skeleton paragraph={{ rows: 10 }} />
+          </>
+        ) : <LinkInfoList dataSource={dataSource} />}
       </div>
 
       <CreateDialog

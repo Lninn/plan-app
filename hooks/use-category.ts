@@ -1,4 +1,4 @@
-import { fetcher } from '@/app/helper'
+import { fetcher } from '@/shared/helper'
 import { DefaultOptionType } from 'antd/es/select'
 import useSWR from 'swr'
 

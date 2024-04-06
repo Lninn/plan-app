@@ -6,7 +6,7 @@ import Editor from "./JSONEditor"
 import { CopyOutlined, ImportOutlined } from "@ant-design/icons"
 import { JSONEditorPropsOptional } from 'vanilla-jsoneditor'
 import type { Content } from 'vanilla-jsoneditor';
-import { type CategorizedTagInfo } from "@/app/type"
+import { type CategorizedTagInfo } from "@/shared/type"
 
 
 const AI_LIST = [
