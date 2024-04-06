@@ -1,15 +1,13 @@
 import ClientApp from '@/app/client-app'
-import { Suspense } from 'react';
-import Nav from './nav';
+import { Layout } from 'antd';
+import Header from './header';
 
 
 export default async function Home() {
   return (
-    <>
-      <Suspense>
-        <Nav />
-      </Suspense>
+    <Layout style={{ height: '100%' }}>
+      <Header />
       <ClientApp />
-    </>
+    </Layout>
   );
 }

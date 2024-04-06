@@ -2,7 +2,8 @@ import { Drawer, Form, Radio, Segmented } from "antd"
 import { coreInfo } from "./coreInfo"
 import { Env } from "@/shared/type"
 import { DarkTheme, Light } from "../icons"
-import React from "react"
+import React, { useEffect } from "react"
+import { useTheme } from "@/hooks"
 
 
 interface SettingPanelProps {
@@ -24,8 +25,19 @@ export default function SettingPanel(
   }: SettingPanelProps
 ) {
 
-  function handleModeChange() {
-    document.documentElement.classList.toggle('dark')
+  const { theme, setTheme } = useTheme()
+
+  useEffect(() => {
+    setHtml(theme)
+  }, [])
+
+  function handleModeChange(value: typeof theme) {
+    setHtml(value)
+    setTheme(value)
+  }
+
+  function setHtml(value: typeof theme) {
+    document.documentElement.dataset.theme = value
   }
 
   return(
@@ -43,6 +55,7 @@ export default function SettingPanel(
       >
         <Form.Item label='暗黑模式'>
           <Segmented
+            value={theme}
             options={[
               { icon: <Light style={{ fontSize: 16 }} />, value: 'light' },
               { icon: <DarkTheme style={{ fontSize: 16 }} />, value: 'dark' },

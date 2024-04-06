@@ -11,6 +11,8 @@ export interface StoreInterface {
   createDialogOpen: boolean
   settingPanelOpen: boolean
 
+  theme: 'light' | 'dark';
+
   categoryList: DefaultOptionType[];
   setCategoryList: (categoryList: DefaultOptionType[]) => void;
   tagOptions: DefaultOptionType[];
@@ -18,6 +20,8 @@ export interface StoreInterface {
 
   changeCreateDialogOpen: (open: boolean) => void;
   changeSettingPanelOpen: (open: boolean) => void;
+
+  setTheme: (theme: 'light' | 'dark') => void;
 }
 
 function getDefaultInitialState() {
@@ -26,6 +30,7 @@ function getDefaultInitialState() {
 
     categoryList: [] as DefaultOptionType[],
     tagOptions: [] as DefaultOptionType[],
+    theme: 'dark',
 
     createDialogOpen: false,
     settingPanelOpen: false,
@@ -65,6 +70,10 @@ export function initializeStore(preloadedState: PreloadedStoreInterface) {
     setTagOptions: (opts) =>
       set({
         tagOptions: opts,
+      }),
+    setTheme: (t) =>
+      set({
+        theme: t,
       }),
   }));
 }

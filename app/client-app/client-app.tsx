@@ -1,12 +1,10 @@
 'use client'
 
-import style from './client-app.module.css'
-
 import { useEffect } from 'react'
 import useSWR from 'swr'
 import { useStore } from '@/lib/store'
 import { useShallow } from 'zustand/react/shallow'
-import { Skeleton } from 'antd'
+import { Layout, Skeleton } from 'antd'
 import { CreateDialog } from '@/app/components'
 import CategorizedTagInfoList from './tag-category-info-list'
 import SettingPanel from './setting-panel'
@@ -91,17 +89,14 @@ export default function ClientApp() {
   }
 
   return (
-    <>
-      <div className={style.content}>
-        {isLoading ? (
-          <>
-            <Skeleton paragraph={{ rows: 10 }} />
-            <Skeleton paragraph={{ rows: 10 }} />
-            <Skeleton paragraph={{ rows: 10 }} />
-          </>
-        ) : <CategorizedTagInfoList dataSource={dataSource} />}
-      </div>
-
+    <Layout.Content style={{ padding: '16px 24px' }}>
+      {isLoading ? (
+        <>
+          <Skeleton paragraph={{ rows: 10 }} active />
+          <Skeleton paragraph={{ rows: 10 }} active />
+          <Skeleton paragraph={{ rows: 10 }} active />
+        </>
+      ) : <CategorizedTagInfoList dataSource={dataSource} />}
       <CreateDialog
         open={createDialogOpen}
         tagOptions={[]}
@@ -115,6 +110,6 @@ export default function ClientApp() {
         onClose={closeSettingPanel}
         toggleEnv={() => {}}
       />
-    </>
+    </Layout.Content>
   )
 }

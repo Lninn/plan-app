@@ -1,5 +1,10 @@
-@import "open-props/style";
-@import "open-props/normalize";
+@import "open-props/open-props.min.css";
+@import "open-props/normalize.min.css";
+@import "open-props/theme.dark.switch.min.css";
+@import "open-props/theme.light.switch.min.css";
+@import "open-props/buttons.min.css";
+@import "open-props/buttons.dark.min.css";
+@import "open-props/buttons.light.min.css";
 
 :root {
   /* override https://github.com/argyleink/open-props/blob/156166738a210eb9d6265c525d3eb79d69f85926/src/extra/normalize.src.css#L68  */
@@ -7,6 +12,10 @@
 
   --max-width: 1100px;
   --test-color: blue;
+}
+
+:where(li) {
+  max-inline-size: unset;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -29,7 +38,7 @@ body {
 
 body {
   margin: 0;
-  min-width: 320px;
+  height: 100%;
   min-height: 100vh;
 }
 

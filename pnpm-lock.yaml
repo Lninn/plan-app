@@ -24,8 +24,8 @@ dependencies:
     specifier: 14.1.4
     version: 14.1.4(react-dom@18.2.0)(react@18.2.0)
   open-props:
-    specifier: ^1.7.0
-    version: 1.7.0
+    specifier: ^1.7.2
+    version: 1.7.2
   react:
     specifier: ^18
     version: 18.2.0
@@ -2623,8 +2623,8 @@ packages:
       wrappy: 1.0.2
     dev: true
 
-  /open-props@1.7.0:
-    resolution: {integrity: sha512-exvA+8HSxD5qihtBnaDQ1uSKrZV/hfM4/K6UCY7LMzwiMKwejshuNPVpM7exoe74wluOq1NdWYmoSfFxGW9iyw==}
+  /open-props@1.7.2:
+    resolution: {integrity: sha512-RheKypVzZBCSZ6c5iJaFWG0OBqdtql3eRFXRYrSNLh6vGzU8NSAHuq9iJPj++DrpPGs1pqlRa2BelwwBHjX3Xg==}
     dev: false
 
   /optionator@0.9.3:
