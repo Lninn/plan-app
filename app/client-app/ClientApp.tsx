@@ -29,7 +29,6 @@ export default function ClientApp() {
  
   const {
     dataSource,
-    categories,
     tagOptions,
     appendList,
     toggleEnv,
@@ -65,7 +64,6 @@ export default function ClientApp() {
 
       <CreateDialog
         open={createDialogOpen}
-        categories={categories}
         tagOptions={tagOptions}
         isExist={isExist}
         onClose={closeCreateDialog}

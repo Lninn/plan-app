@@ -1,7 +1,7 @@
-import { Table, Form, Input, Cascader, Select, Button } from "antd"
-import { categories } from "@/app/category"
+import { Table, Form, Input, Select, Button } from "antd"
 import { type ILinkInfo } from "@/app/type"
 import { type ColumnsType } from "antd/es/table"
+import CategoryCascader from "../CategoryCascader"
 
 
 interface FormTableProps {
@@ -63,7 +63,7 @@ export default function FormTable(
             style={{ marginBlock: 0 }}
             rules={[{ required: true }]}
           >
-            <Cascader placeholder='请选择' options={categories} />
+            <CategoryCascader />
           </Form.Item>
         )
       }

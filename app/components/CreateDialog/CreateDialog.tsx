@@ -5,10 +5,8 @@ import {
   Tabs,
   Form,
   Input,
-  Cascader,
   Select,
   Button,
-  type CascaderProps,
   type SelectProps,
   message
 } from "antd"
@@ -19,6 +17,7 @@ import FormTable from "./FormTable"
 import { LinkOutlined } from "@ant-design/icons"
 import { getUUID } from "@/app/uuid"
 import { getRandomIcon } from "@/app/mock-helper"
+import CategoryCascader from "../CategoryCascader"
 
 
 function createLinkRecord(
@@ -42,7 +41,6 @@ function createLinkRecord(
 interface CreateDialogProps {
   open: boolean
   onClose: () => void
-  categories: CascaderProps['options']
   tagOptions: SelectProps['options']
   submit: (record: ILinkInfo[]) => void
   isExist: (name: string) => boolean
@@ -68,7 +66,6 @@ export default function CreateDialog(
     open,
     onClose,
     submit,
-    categories,
     tagOptions,
     isExist,
   }: CreateDialogProps
@@ -171,7 +168,7 @@ export default function CreateDialog(
                   <Input placeholder='请输入' type='url' />
                 </Form.Item>
                 <Form.Item label='分类' name='categories' rules={[{ required: true }]}>
-                  <Cascader placeholder='请选择' options={categories} />
+                  <CategoryCascader />
                 </Form.Item>
                 <Form.Item label='标签' name='tags' rules={[{ required: true }]}>
                   <Select mode='tags' placeholder='请选择' options={tagOptions} />

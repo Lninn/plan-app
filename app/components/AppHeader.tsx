@@ -2,12 +2,12 @@
 
 import style from './AppHeader.module.css'
 
-import { Button, Cascader, Form, Input, Select, Space } from "antd";
+import { Button, Form, Input, Select, Space } from "antd";
 import { SettingOutlined } from "@ant-design/icons";
-import { categories } from "../category";
 import { Command } from "@/app/components";
 import { useStore } from '@/lib/store';
 import { useShallow } from 'zustand/react/shallow';
+import CategoryCascader from './CategoryCascader';
 
 
 function useModalAction() {
@@ -34,7 +34,7 @@ export default function AppHeader() {
           <Input placeholder='请输入关键词' />
         </Form.Item>
         <Form.Item label='分类'>
-          <Cascader placeholder='请选择' options={categories} />
+          <CategoryCascader />
         </Form.Item>
         <Form.Item label='标签'>
             {/* TODO */}

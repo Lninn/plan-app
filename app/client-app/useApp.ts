@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from 'react'
+import { useReducer } from 'react'
 import { createMockTagOptions } from '@/app/mock-helper'
 import { Env, type ILinkInfo } from '@/app/type'
 import { type CascaderProps, } from 'antd'
@@ -58,11 +58,6 @@ const dataMap: Record<Env, ILinkInfo[]> = {
   [Env.prod]: [],
 }
 
-const categoriesMap: Record<Env, CascaderProps['options']> = {
-  [Env.dev]: createMockCategores(),
-  [Env.prod]: categories,
-}
-
 const tagOptionsMap: Record<Env, DefaultOptionType[]> = {
   [Env.dev]: createMockTagOptions(),
   [Env.prod]: tagOptions,
@@ -71,19 +66,16 @@ const tagOptionsMap: Record<Env, DefaultOptionType[]> = {
 function switchDataSource(nextEnv: Env) {
 
   const nextData = dataMap[nextEnv]
-  const nextCategories = categoriesMap[nextEnv]
   const nextTags = tagOptionsMap[nextEnv]
 
   return {
     dataSource: nextData,
-    categories: nextCategories,
     tagOptions: nextTags
   }
 }
 
 interface State {
   dataSource: ILinkInfo[]
-  categories: CascaderProps['options']
   tagOptions: DefaultOptionType[]
 }
 
@@ -98,7 +90,6 @@ function getInitialState() {
 
   const {
     dataSource,
-    categories,
     tagOptions,
   } = switchDataSource(env)
 
