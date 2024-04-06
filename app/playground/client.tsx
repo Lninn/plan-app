@@ -1,6 +1,6 @@
 'use client'
 
-import { Table } from "antd"
+import { Button, Space, Table } from "antd"
 import AddCategoryModal from "./add-category"
 import useSWR from "swr";
 import { fetcher } from "@/app/helper";
@@ -17,7 +17,7 @@ export default function ClientApp() {
   return (
     <main className={style.container}>
       <Table
-        rowKey='_id'
+        rowKey='id'
         columns={[
           {
             title: '分类名称',
@@ -30,9 +30,24 @@ export default function ClientApp() {
             key: 'value',
           },
           {
+            title: '创建时间',
+            dataIndex: 'createdAt',
+            key: 'createdAt',
+          },
+          {
             title: '操作',
             dataIndex: 'operation',
             key: 'operation',
+            width: 100,
+            align: 'center',
+            render() {
+              return (
+                <Space>
+                  <Button type='text'>编辑</Button>
+                  <Button type='text'>删除</Button>
+                </Space>
+              )
+            }
           }
         ]}
         loading={isLoading}

@@ -46,9 +46,9 @@ export default function AddCategoryModal(){
 
       const createRes = await trigger({ firstCategory, secondCategory })
       if (createRes.ok) {
+        closeAddCategoryModal();
         message.success(createRes.msg, 1, () => {
           form.resetFields();
-          closeAddCategoryModal();
         })
       } else {
         message.error(createRes.msg)

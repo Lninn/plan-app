@@ -2,12 +2,52 @@ import dbConnect from "@/lib/dbConnect"
 import Category, { Categories } from '@/models/Category'
 
 
+function pruneUnnecessaryFields(queries: Categories[] | undefined | null): Categories[] | undefined {
+  if (!queries) {
+    return undefined;
+  }
+
+  const prunedQueries = queries.map(query => {
+    if (!query || !query.children) {
+      return undefined;
+    }
+
+    // 创建新的Category对象，将_id的值赋给id，并包含其他必要字段
+    return {
+      id: query._id,
+      label: query.label,
+      value: query.value,
+      createdAt: foramtDatetime(query.createdAt),
+      children: query.children.map(child => ({
+        id: child._id,
+        label: child.label,
+        value: child.value,
+        createdAt: foramtDatetime(child.createdAt),
+      }))
+    };
+  }).filter(Boolean) as Categories[];
+
+  return prunedQueries;
+}
+
+function foramtDatetime(dateString: string) {
+  const date = new Date(dateString);
+  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
+}
+
 export async function GET() {
-  await dbConnect()
+  
+  try {
+    await dbConnect()
+  
+    const listQuery = await Category.find()
+    console.log('debug ', JSON.stringify(listQuery, null, 2))
 
-  const result= await Category.find()
-
-  return Response.json({ data: result })
+    const prunedQueries = pruneUnnecessaryFields(listQuery)
+    return Response.json({ ok: true, data: prunedQueries })
+  } catch (error) {
+    return Response.json({ ok: false, msg: '获取失败' })
+  }
 }
 
 export async function POST(request: Request) {
