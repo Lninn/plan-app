@@ -5,7 +5,7 @@ import { Inter } from "next/font/google";
 import StoreProvider from "@/lib/StoreProvider";
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import AntdProvider from "./antd-provider";
-// import Script from 'next/script'
+import Script from 'next/script'
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -45,7 +45,7 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      {/* <Script
+      <Script
          id="check-dark-mode"
          dangerouslySetInnerHTML={{
            __html: (
@@ -59,7 +59,7 @@ export default function RootLayout({
                 })()`
            ),
          }}
-      /> */}
+      />
       <body className={inter.className}>
         <AntdRegistry>
           <StoreProvider lastUpdate={new Date().getTime()}>

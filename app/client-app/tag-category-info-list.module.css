@@ -4,9 +4,9 @@
   /**
    * User input values.
    */
-   --grid-layout-gap: 12px;
+   --grid-layout-gap: 16px;
    --grid-column-count: 8; /* This gets overridden by an inline style. */
-   --grid-item--min-width: 300px; /* This gets overridden by an inline style. */
+   --grid-item--min-width: 296px; /* This gets overridden by an inline style. */
    
    /**
     * Calculated values.
@@ -24,8 +24,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding: 8px 12px;
-  box-shadow: var(--shadow-1);
+  background-image: var(--card-image);
 }
 
 .header {

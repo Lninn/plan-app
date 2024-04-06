@@ -89,7 +89,7 @@ export default function ClientApp() {
   }
 
   return (
-    <Layout.Content style={{ padding: '16px 24px' }}>
+    <Layout.Content style={{ padding: '16px 24px', marginTop: 24 }}>
       {isLoading ? (
         <>
           <Skeleton paragraph={{ rows: 10 }} active />

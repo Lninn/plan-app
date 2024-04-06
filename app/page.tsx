@@ -5,7 +5,13 @@ import Header from './header';
 
 export default async function Home() {
   return (
-    <Layout style={{ height: '100%' }}>
+    <Layout
+      style={{
+        minHeight: '100%',
+        maxWidth: 1280,
+        margin: '0 auto',
+      }}
+    >
       <Header />
       <ClientApp />
     </Layout>
