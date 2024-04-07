@@ -13,7 +13,8 @@ import {
   Cascader,
   Skeleton,
   Badge,
-  Tooltip
+  Tooltip,
+  FormInstance
 } from "antd"
 import { ChangeEventHandler, useReducer } from "react"
 import URLResolveDrawer from "./URLResolveDrawer"
@@ -103,7 +104,7 @@ export default function CreateDialog(
         message.error(errorInfo.message)
       }
     }
-  } 
+  }
 
   async function handleBatchSubmit() {
     try {
@@ -227,7 +228,7 @@ export default function CreateDialog(
                     <Input placeholder='请输入' type='url' />
                   </Form.Item>
                   <Form.Item label="图标" name='icon' rules={[{ required: true }]}>
-                    <IconPreview imageLoading={state.imageLoading} />
+                    <IconPreview form={form} imageLoading={state.imageLoading} />
                   </Form.Item>
                   <Form.Item label='分类' name='categories' rules={[{ required: true }]}>
                     <Cascader placeholder='请选择' options={categoryList} />
@@ -291,17 +292,39 @@ export default function CreateDialog(
   )
 }
 
-function IconPreview({
+interface IconPreviewProps {
+  value?: string;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
+  imageLoading: boolean;
+  form: FormInstance
+}
+
+function IconPreview ({
   value,
   onChange,
   imageLoading,
-}:{ value?: string; onChange?: ChangeEventHandler<HTMLInputElement>; imageLoading: boolean }) {
+  form,
+} : IconPreviewProps) {
+  async function syncFavicon() {
+    let url = form.getFieldValue('url')
+    url = 'https://www.baidu.com/'
+
+    try {
+      // TODO: 1. 获取网站 favicon
+      const res = await fetch('http://localhost:8080/users')
+      const data = await res.json()
+      console.log(data)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <>
       <div style={{ display: 'flex', gap: 16 }}>
         <Input value={value} onChange={onChange} placeholder='图标连接不支持编辑' readOnly />
         <div style={{ display: 'inline-flex', gap: 8 }}>
-          <Button type='primary'>同步 Favicon</Button>
+          <Button type='primary' onClick={syncFavicon}>同步 Favicon</Button>
           <Tooltip title='图标需要手动同步。图标连接不支持手动输入，点击同步后自动解析，如果失败则使用默认图片'>
             <QuestionCircleOutlined style={{ flexShrink: 0 }} />
           </Tooltip>
