@@ -10,13 +10,16 @@ import {
   type SelectProps,
   message,
   Space,
-  Cascader
+  Cascader,
+  Skeleton,
+  Badge,
+  Tooltip
 } from "antd"
-import { useReducer } from "react"
+import { ChangeEventHandler, useReducer } from "react"
 import URLResolveDrawer from "./URLResolveDrawer"
 import { type CategorizedTagInfo } from "@/shared/type"
 import FormTable from "./FormTable"
-import { LinkOutlined } from "@ant-design/icons"
+import { LinkOutlined, QuestionCircleOutlined } from "@ant-design/icons"
 // import { getUUID } from "@/shared/uuid"
 import {
   createCategorizedTag,
@@ -48,11 +51,13 @@ interface CreateDialogProps {
 interface CreateDialogState {
   drawerOpen: boolean
   activeKey: string
+  imageLoading: boolean
 }
 
 const initialState: CreateDialogState = {
   drawerOpen: false,
   activeKey: '1',
+  imageLoading: false,
 }
 
 const reducer = (p: CreateDialogState, n: Partial<CreateDialogState>) => ({
@@ -156,6 +161,7 @@ export default function CreateDialog(
     const {
       title,
       url,
+      icon,
       categories,
       tags,
     } = randomTagCategory
@@ -163,6 +169,7 @@ export default function CreateDialog(
     form.setFieldsValue({
       title,
       url,
+      icon,
       categories,
       tags,
     })
@@ -194,7 +201,11 @@ export default function CreateDialog(
                   </Space>
                 </div>
 
-                <Form form={form} style={{ maxWidth: 600 }} {...formItemLayout}>
+                <Form
+                  form={form}
+                  {...formItemLayout}
+                  // style={{ maxWidth: 600 }}
+                >
                   <Form.Item
                     label='名称'
                     name='title'
@@ -214,6 +225,9 @@ export default function CreateDialog(
                   </Form.Item>
                   <Form.Item label='网址' name='url' rules={[{ required: true }]}>
                     <Input placeholder='请输入' type='url' />
+                  </Form.Item>
+                  <Form.Item label="图标" name='icon' rules={[{ required: true }]}>
+                    <IconPreview imageLoading={state.imageLoading} />
                   </Form.Item>
                   <Form.Item label='分类' name='categories' rules={[{ required: true }]}>
                     <Cascader placeholder='请选择' options={categoryList} />
@@ -274,5 +288,39 @@ export default function CreateDialog(
         }}
       />
     </Modal>
+  )
+}
+
+function IconPreview({
+  value,
+  onChange,
+  imageLoading,
+}:{ value?: string; onChange?: ChangeEventHandler<HTMLInputElement>; imageLoading: boolean }) {
+  return (
+    <>
+      <div style={{ display: 'flex', gap: 16 }}>
+        <Input value={value} onChange={onChange} placeholder='图标连接不支持编辑' readOnly />
+        <div style={{ display: 'inline-flex', gap: 8 }}>
+          <Button type='primary'>同步 Favicon</Button>
+          <Tooltip title='图标需要手动同步。图标连接不支持手动输入，点击同步后自动解析，如果失败则使用默认图片'>
+            <QuestionCircleOutlined style={{ flexShrink: 0 }} />
+          </Tooltip>
+        </div>
+      </div>
+      <div style={{ marginTop: 8 }}>
+          {
+            imageLoading ? (
+              <Skeleton.Image active />
+            ) : (
+              <img
+                src="https://www.baidu.com/favicon.ico"
+                width={96}
+                height={96}
+                alt="favicons"
+              />
+            )
+          }
+      </div>
+    </>
   )
 }
