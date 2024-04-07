@@ -18,7 +18,6 @@ const CategorizedTagLibrarySchema = new mongoose.Schema<CategorizedTagLibraries>
   url: {
     type: String,
     required: [true, '请输入链接'],
-    maxlength: [60, '标题最多60个字符'],
   },
   icon: {
     type: String,
