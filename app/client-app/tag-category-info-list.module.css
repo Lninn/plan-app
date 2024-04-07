@@ -23,8 +23,8 @@
 .card {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  background-image: var(--card-image);
+  gap: 16px;
+  background-color: var(--card-bg-color);
   padding: 8px 16px;
 }
 
@@ -59,11 +59,15 @@
 
 .tagList {
   display: flex;
-  gap: 4px;
+  gap: 8px;
 }
 
 .tagItem {
   font-size: 12px;
   color: var(--text-2);
+
+  background-color: var(--surface-1);
+  padding: 3px 5px;
+  border-radius: 3px;
 }
 

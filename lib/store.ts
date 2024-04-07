@@ -30,7 +30,7 @@ function getDefaultInitialState() {
 
     categoryList: [] as DefaultOptionType[],
     tagOptions: [] as DefaultOptionType[],
-    theme: 'dark',
+    theme: 'light',
 
     createDialogOpen: false,
     settingPanelOpen: false,
