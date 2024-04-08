@@ -125,11 +125,11 @@ export default function CreateDialog(
 
   async function handleSingleSubmit() {
     try {
-      const values: Omit<CategorizedTagInfo, 'icon' | 'id'> = await form.validateFields()
-      const { title, url, categories, tags  } = values
+      const values: Omit<CategorizedTagInfo, 'id'> = await form.validateFields()
+      const { title, icon, url, categories, tags } = values
 
       const nextDataList: CategorizedTagInfo[] = [
-        { id: '', icon: getRandomIcon(), title, url, categories, tags }
+        { id: '', icon, title, url, categories, tags }
       ]
 
       await createTagCategoryProcess(nextDataList)
@@ -314,15 +314,14 @@ function IconPreview ({
   )
 
   async function syncFavicon() {
-    const url = form.getFieldValue('url')
-    if (!url) {
+    const inputUrl = form.getFieldValue('url')
+    if (!inputUrl) {
       message.warning('请先填写网址')
       return
     }
 
     // TODO type fix
-    const res: any = await trigger(url)
-    console.log('[IconPreview-syncFavicon] ', { res })
+    const res: any = await trigger(inputUrl)
     if (res.success) {
       const url = res.responseObject.url
       if (onChange) {
@@ -338,6 +337,21 @@ function IconPreview ({
     }
   }
 
+  function renderIcon() {
+    if (imageLoading || !value) {
+      return <Skeleton.Image active={imageLoading} />
+    }
+
+    return (
+      <img
+        src={value}
+        width={96}
+        height={96}
+        alt="favicons"
+      />
+    )
+  }
+
   return (
     <>
       <div style={{ display: 'flex', gap: 16 }}>
@@ -350,18 +364,7 @@ function IconPreview ({
         </div>
       </div>
       <div style={{ marginTop: 8 }}>
-          {
-            imageLoading ? (
-              <Skeleton.Image active />
-            ) : (
-              <img
-                src="https://www.baidu.com/favicon.ico"
-                width={96}
-                height={96}
-                alt="favicons"
-              />
-            )
-          }
+        {renderIcon()}
       </div>
     </>
   )
