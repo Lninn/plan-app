@@ -16,7 +16,7 @@ import {
   Tooltip,
   FormInstance
 } from "antd"
-import { ChangeEventHandler, useReducer } from "react"
+import { ChangeEvent, ChangeEventHandler, useReducer } from "react"
 import URLResolveDrawer from "./URLResolveDrawer"
 import { type CategorizedTagInfo } from "@/shared/type"
 import FormTable from "./FormTable"
@@ -263,7 +263,7 @@ export default function CreateDialog(
                    }}
                   >
                   <Form.Item name='dataSource'>
-                    <FormTable isExist={isExist} categoryList={categoryList} />
+                    <FormTable isExist={isExist} categoryList={categoryList} tagOptions={tagOptions} />
                   </Form.Item>
                 </Form>
               </div>
@@ -294,7 +294,7 @@ export default function CreateDialog(
 
 interface IconPreviewProps {
   value?: string;
-  onChange?: ChangeEventHandler<HTMLInputElement>;
+  onChange?: (value: string) => void;
   imageLoading: boolean;
   form: FormInstance
 }
@@ -305,26 +305,45 @@ function IconPreview ({
   imageLoading,
   form,
 } : IconPreviewProps) {
-  async function syncFavicon() {
-    let url = form.getFieldValue('url')
-    url = 'https://www.baidu.com/'
+  
+  const { trigger, isMutating } = useSWRMutation(
+    'http://localhost:8080/urls/parse',
+    (url, { arg }) => {
+      return fetch(`${url}?url=${arg}`).then(res => res.json())
+    }
+  )
 
-    try {
-      // TODO: 1. 获取网站 favicon
-      const res = await fetch('http://localhost:8080/users')
-      const data = await res.json()
-      console.log(data)
-    } catch (error) {
-      console.error(error)
+  async function syncFavicon() {
+    const url = form.getFieldValue('url')
+    if (!url) {
+      message.warning('请先填写网址')
+      return
+    }
+
+    // TODO type fix
+    const res: any = await trigger(url)
+    console.log('[IconPreview-syncFavicon] ', { res })
+    if (res.success) {
+      const url = res.responseObject.url
+      if (onChange) {
+        onChange(url);
+      }
+    }
+  }
+
+  function onInputChange(e: ChangeEvent<HTMLInputElement>) {
+    const url = e.target.value;
+    if (onChange) {
+      onChange(url);
     }
   }
 
   return (
     <>
       <div style={{ display: 'flex', gap: 16 }}>
-        <Input value={value} onChange={onChange} placeholder='图标连接不支持编辑' readOnly />
+        <Input value={value} onChange={onInputChange} placeholder='图标连接不支持编辑' readOnly />
         <div style={{ display: 'inline-flex', gap: 8 }}>
-          <Button type='primary' onClick={syncFavicon}>同步 Favicon</Button>
+          <Button loading={isMutating} type='primary' onClick={syncFavicon}>同步 Favicon</Button>
           <Tooltip title='图标需要手动同步。图标连接不支持手动输入，点击同步后自动解析，如果失败则使用默认图片'>
             <QuestionCircleOutlined style={{ flexShrink: 0 }} />
           </Tooltip>

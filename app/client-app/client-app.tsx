@@ -46,6 +46,7 @@ export default function ClientApp() {
 
   const {
     createDialogOpen,
+    tagOptions,
     showCreateDialog,
     closeCreateDialog,
     settingPanelOpen,
@@ -99,7 +100,7 @@ export default function ClientApp() {
       ) : <CategorizedTagInfoList dataSource={dataSource} />}
       <CreateDialog
         open={createDialogOpen}
-        tagOptions={[]}
+        tagOptions={tagOptions}
         isExist={isExist}
         onClose={closeCreateDialog}
         categoryList={categoryData}

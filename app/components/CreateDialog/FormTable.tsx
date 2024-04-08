@@ -1,4 +1,4 @@
-import { Table, Form, Input, Select, Button, Cascader } from "antd"
+import { Table, Form, Input, Select, Button, Cascader, type SelectProps } from "antd"
 import { type CategorizedTagInfo } from "@/shared/type"
 import { type ColumnsType } from "antd/es/table"
 import { DefaultOptionType } from "antd/es/select"
@@ -9,6 +9,7 @@ interface FormTableProps {
   onChange?: (value: CategorizedTagInfo[]) => void
   isExist: (name: string) => boolean
   categoryList: DefaultOptionType[]
+  tagOptions: SelectProps['options']
 }
 
 export default function FormTable(
@@ -17,6 +18,7 @@ export default function FormTable(
     onChange,
     isExist,
     categoryList,
+    tagOptions,
   }: FormTableProps
 ) {
   function removeById(id: string) {
@@ -81,7 +83,7 @@ export default function FormTable(
             style={{ marginBlock: 0 }}
             rules={[{ required: true }]}
           > 
-            <Select mode='tags' placeholder='请选择' />
+            <Select mode='tags' placeholder='请选择' options={tagOptions} />
           </Form.Item>
         )
       }
