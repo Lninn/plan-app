@@ -36,7 +36,10 @@ export async function GET(request: NextRequest) {
 
     imageUrl = await fetchByHostPage(browser, query);
     if (imageUrl) {
-      return Response.json({ ok: true, query, imageUrl, action: 'hostPage' });
+      const isValid = await isImageValid(imageUrl);
+      if (isValid) {
+        return Response.json({ ok: true, query, imageUrl, action: 'hostPage' });
+      }
     }
 
     const fetchResult = await fetchImgUrl(browser, query);

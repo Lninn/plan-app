@@ -24,7 +24,6 @@ const CategorizedTagLibrarySchema = new mongoose.Schema<CategorizedTagLibraries>
   icon: {
     type: String,
     required: [true, '请输入图标'],
-    maxlength: [60, '标题最多60个字符'],
   },
   categories: {
     type: [String],
