@@ -1,13 +1,13 @@
 import dbConnect from "@/lib/dbConnect"
-import CategorizedTagLibrary from '@/models/CategorizedTagLibrary'
+import CategorizedTagLibrary, { CategorizedTagLibraries } from '@/models/CategorizedTagLibrary'
 
-export async function queryList() {
+export async function queryList(): Promise<CategorizedTagLibraries[]> {
+  try {
+    await dbConnect()
 
-  await dbConnect()
-
-  const result= await CategorizedTagLibrary.find()
-
-  // console.log('接口访问成功', { result })
-
-  return Response.json({ ok: true, data: result })
+    return await CategorizedTagLibrary.find()
+  } catch (error) {
+    console.log('[queryList]', error)
+    return []
+  }
 }

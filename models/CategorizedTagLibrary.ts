@@ -6,6 +6,8 @@ export interface CategorizedTagLibraries extends mongoose.Document {
   icon: string;
   categories: string[]
   tags: string[]
+  createdAt: string;
+  updatedAt: string;
 }
 
 /* CategorySchema will correspond to a collection in your MongoDB database. */

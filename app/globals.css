@@ -17,6 +17,9 @@
 :where(li) {
   max-inline-size: unset;
 }
+:where(:is(td,th):not([align])) {
+  text-align: unset;
+}
 
 :where(
   [data-theme="dark"],

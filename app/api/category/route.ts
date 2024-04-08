@@ -1,5 +1,6 @@
 import dbConnect from "@/lib/dbConnect"
 import Category, { Categories } from '@/models/Category'
+import { foramtDatetime } from "@/shared/date";
 
 
 function pruneUnnecessaryFields(queries: Categories[] | undefined | null): Categories[] | undefined {
@@ -30,10 +31,7 @@ function pruneUnnecessaryFields(queries: Categories[] | undefined | null): Categ
   return prunedQueries;
 }
 
-function foramtDatetime(dateString: string) {
-  const date = new Date(dateString);
-  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
-}
+
 
 export async function GET() {
   

@@ -1,11 +1,17 @@
 import dbConnect from "@/lib/dbConnect";
 import { queryList } from "./queryList"
-import CategorizedTagLibrary, { CategorizedTagLibraries } from '@/models/CategorizedTagLibrary'
+import CategorizedTagLibrary from '@/models/CategorizedTagLibrary'
 import mongoose from 'mongoose'
-import { CategorizedTagInfo } from "@/shared/type";
+
 
 export async function GET(request: Request) {
-  return await queryList()
+  try {
+    const data = await queryList();
+    return Response.json({ ok: true, data })
+  } catch (errorInfo) {
+    console.log('[errorInfo] ', errorInfo);
+    return Response.json({ ok: false, msg: '服务端错误' });
+  }
 }
 
 export async function POST(request: Request) {
