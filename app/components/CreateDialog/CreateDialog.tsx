@@ -12,21 +12,18 @@ import {
   Space,
   Cascader,
   Skeleton,
-  Badge,
   Tooltip,
   FormInstance
 } from "antd"
-import { ChangeEvent, ChangeEventHandler, useReducer } from "react"
+import { ChangeEvent, useReducer } from "react"
 import URLResolveDrawer from "./URLResolveDrawer"
 import { type CategorizedTagInfo } from "@/shared/type"
 import FormTable from "./FormTable"
 import { LinkOutlined, QuestionCircleOutlined } from "@ant-design/icons"
-// import { getUUID } from "@/shared/uuid"
 import {
   createCategorizedTag,
   createEmptyTagCategoryInfo,
   getFinalTagCategoryInfo,
-  getRandomIcon
 } from "@/shared/mock-helper"
 import { DefaultOptionType } from "antd/es/select"
 import useSWRMutation from "swr/mutation"
@@ -53,13 +50,11 @@ interface CreateDialogProps {
 interface CreateDialogState {
   drawerOpen: boolean
   activeKey: string
-  imageLoading: boolean
 }
 
 const initialState: CreateDialogState = {
   drawerOpen: false,
   activeKey: '1',
-  imageLoading: false,
 }
 
 const reducer = (p: CreateDialogState, n: Partial<CreateDialogState>) => ({
@@ -229,7 +224,7 @@ export default function CreateDialog(
                     <Input placeholder='请输入' type='url' />
                   </Form.Item>
                   <Form.Item label="图标" name='icon' rules={[{ required: true }]}>
-                    <IconPreview form={form} imageLoading={state.imageLoading} />
+                    <IconPreview form={form} />
                   </Form.Item>
                   <Form.Item label='分类' name='categories' rules={[{ required: true }]}>
                     <Cascader placeholder='请选择' options={categoryList} />
@@ -296,21 +291,18 @@ export default function CreateDialog(
 interface IconPreviewProps {
   value?: string;
   onChange?: (value: string) => void;
-  imageLoading: boolean;
   form: FormInstance
 }
 
 async function iconRequestCreator(url: string, { arg }: { arg: { source: string }}) {
-  return fetch(url, {
-    method: 'POST',
-    body: JSON.stringify(arg)
+  return fetch(`${url}?query=${arg.source}`, {
+    method: 'GET',
   }).then(res => res.json())
 }
 
 function IconPreview ({
   value,
   onChange,
-  imageLoading,
   form,
 } : IconPreviewProps) {
   const inputUrl = Form.useWatch('url', form)
@@ -330,7 +322,7 @@ function IconPreview ({
     prevRef.current.prevInputString = inputUrl
     const res = await trigger({ source: inputUrl })
     if (res.ok) {
-      const url = res.data.url
+      const url = res.imageUrl
       if (onChange) {
         onChange(url);
       }
@@ -345,8 +337,8 @@ function IconPreview ({
   }
 
   function renderIcon() {
-    if (imageLoading || !value) {
-      return <Skeleton.Image active={imageLoading} />
+    if (!value) {
+      return <Skeleton.Image active />
     }
 
     return (
@@ -361,8 +353,6 @@ function IconPreview ({
 
   function isBtnDisabled() {
     if (!inputUrl) return true
-
-    if (imageLoading) return false
 
     if (inputUrl === prevRef.current.prevInputString) return true
 

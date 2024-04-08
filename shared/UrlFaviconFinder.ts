@@ -1,5 +1,4 @@
-import puppeteer, { Browser, Page } from "puppeteer";
-import { isImageValid } from "./isImageValid";
+import puppeteer, { Browser, Page } from "puppeteer-core";
 
 export class UrlFaviconFinder {
   private browser!: Browser;
@@ -55,13 +54,7 @@ export class UrlFaviconFinder {
   private async find_by_default(rootUrl: string): Promise<string | null> {
     const finalUrl = `${rootUrl}/favicon.ico`;
 
-    const isImage = await isImageValid(finalUrl);
-
-    if (isImage) {
-      return finalUrl;
-    } else {
-      return null;
-    }
+    return finalUrl
   }
 
   private async find_by_selfOrigin(page: Page, rootUrl: string): Promise<string | null> {
