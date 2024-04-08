@@ -30,6 +30,7 @@ import {
 } from "@/shared/mock-helper"
 import { DefaultOptionType } from "antd/es/select"
 import useSWRMutation from "swr/mutation"
+import React from "react"
 
 
 async function requestCreator(url: string, { arg }: { arg: { list: CategorizedTagInfo[] }}) {
@@ -312,19 +313,21 @@ function IconPreview ({
   imageLoading,
   form,
 } : IconPreviewProps) {
-  
+  const inputUrl = Form.useWatch('url', form)
+  const prevRef = React.useRef({ prevInputString: '' })
+
   const { trigger, isMutating } = useSWRMutation(
     '/api/favicon',
     iconRequestCreator
   )
 
   async function syncFavicon() {
-    const inputUrl = form.getFieldValue('url')
     if (!inputUrl) {
       message.warning('请先填写网址')
       return
     }
 
+    prevRef.current.prevInputString = inputUrl
     const res = await trigger({ source: inputUrl })
     if (res.ok) {
       const url = res.data.url
@@ -356,12 +359,29 @@ function IconPreview ({
     )
   }
 
+  function isBtnDisabled() {
+    if (!inputUrl) return true
+
+    if (imageLoading) return false
+
+    if (inputUrl === prevRef.current.prevInputString) return true
+
+    return false
+  }
+
   return (
     <>
       <div style={{ display: 'flex', gap: 16 }}>
         <Input value={value} onChange={onInputChange} placeholder='图标连接不支持编辑' readOnly />
         <div style={{ display: 'inline-flex', gap: 8 }}>
-          <Button loading={isMutating} type='primary' onClick={syncFavicon}>同步 Favicon</Button>
+          <Button
+            loading={isMutating}
+            type='primary'
+            disabled={isBtnDisabled()}
+            onClick={syncFavicon}
+          >
+            同步 Favicon
+          </Button>
           <Tooltip title='图标需要手动同步。图标连接不支持手动输入，点击同步后自动解析，如果失败则使用默认图片'>
             <QuestionCircleOutlined style={{ flexShrink: 0 }} />
           </Tooltip>
