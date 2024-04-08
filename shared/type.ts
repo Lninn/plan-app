@@ -5,8 +5,6 @@ export interface CategorizedTagInfo {
   icon: string
   categories: string[]
   tags: string[]
-  createdAt: string;
-  updatedAt: string;
 }
 
 export const enum Env {

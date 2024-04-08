@@ -35,7 +35,6 @@ async function getData() {
   return parsedData;
 }
 
-
 export default async function CategorizedTagLibrary() {
   const data = await getData();
 
