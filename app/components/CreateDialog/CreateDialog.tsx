@@ -299,6 +299,13 @@ interface IconPreviewProps {
   form: FormInstance
 }
 
+async function iconRequestCreator(url: string, { arg }: { arg: { source: string }}) {
+  return fetch(url, {
+    method: 'POST',
+    body: JSON.stringify(arg)
+  }).then(res => res.json())
+}
+
 function IconPreview ({
   value,
   onChange,
@@ -307,10 +314,8 @@ function IconPreview ({
 } : IconPreviewProps) {
   
   const { trigger, isMutating } = useSWRMutation(
-    'http://localhost:8080/urls/parse',
-    (url, { arg }) => {
-      return fetch(`${url}?url=${arg}`).then(res => res.json())
-    }
+    '/api/favicon',
+    iconRequestCreator
   )
 
   async function syncFavicon() {
@@ -320,10 +325,9 @@ function IconPreview ({
       return
     }
 
-    // TODO type fix
-    const res: any = await trigger(inputUrl)
-    if (res.success) {
-      const url = res.responseObject.url
+    const res = await trigger({ source: inputUrl })
+    if (res.ok) {
+      const url = res.data.url
       if (onChange) {
         onChange(url);
       }
